@@ -52,6 +52,29 @@
 .done li{background:rgba(255,255,255,.12);border-radius:20px;padding:16px 18px;display:flex;gap:14px;align-items:center;font-size:17px}
 .done li b{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;font:800 16px/1 var(--display);flex:none}
 .done .note{font-size:13px;opacity:.8}
+.tile .sub{font:500 14px/1.3 var(--ui);color:var(--ink-2);padding:0 16px 16px;margin-top:-8px}
+.grp{display:grid;gap:10px;margin-bottom:28px}
+.grp>.lb{font-weight:600;font-size:17px}
+.hint{font-size:14px;color:var(--ink-2);margin-top:-4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.in.sm{min-height:54px;font-size:18px}
+textarea.in{min-height:110px;padding:16px 20px;line-height:1.4;resize:vertical}
+.rng{display:grid;gap:8px}
+.rng input{width:100%;accent-color:var(--blue);height:34px}
+.rng .ends{display:flex;justify-content:space-between;font-size:14px;color:var(--ink-2)}
+.rng output{font-weight:600;color:var(--blue)}
+.drop{border:2px dashed var(--line);border-radius:22px;padding:22px;display:grid;gap:8px;justify-items:start;background:#fff;cursor:pointer;transition:border-color .15s}
+.drop:hover,.drop.on{border-color:var(--blue)}
+.drop b{font:700 18px/1.2 var(--display)}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.drop .st{font-size:14px;color:var(--ink-2)}
+.sws{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sw{width:44px;height:44px;border-radius:12px;border:1px solid rgba(0,0,0,.12);position:relative;padding:0}
+.sw .rm{position:absolute;right:-6px;top:-6px;width:20px;height:20px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:12px;line-height:18px;color:var(--ink-2)}
+.sw.add{display:grid;place-items:center;background:#fff;border:2px dashed var(--line);font-weight:700;color:var(--blue);overflow:hidden}
+.sw.add input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.reveal[hidden]{display:none}
+.lock{font-size:13px;color:var(--ink-2)}
 </style>
 </head><body>
 <div class="proto">Pilot · AI matches, checked by a curator · room visuals are concept renders</div>
@@ -60,78 +83,162 @@
 <div class="bar" aria-hidden="true"><i id="bar"></i></div>
 <main>
 <form id="f" class="bb" novalidate>
-  <div class="lv"><button class="back" type="button" id="back" hidden>← Back</button><span class="tag" id="lvl">Step 1 of 3</span></div>
+  <div class="lv"><button class="back" type="button" id="back" hidden>← Back</button><span class="tag" id="lvl">Step 1</span></div>
 
-  <section data-s="1">
-    <h1 class="q">What's the <em>space?</em></h1>
+  <section data-s="track">
+    <h1 class="q">What are we <em>making?</em></h1>
     <div class="style" id="style" hidden></div>
-    <div class="tiles" data-k="space" data-auto>
+    <div class="tiles" data-k="track">
+      <button class="tile" type="button" data-v="Physical" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-lobby.jpg" alt=""></span><b>A piece for a space</b><span class="sub">Interior, terrace, facade, public area</span></button>
+      <button class="tile" type="button" data-v="Online" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/play-blue-room.jpg" alt=""></span><b>An online campaign</b><span class="sub">Identity, social, launch, content</span></button>
+      <button class="tile" type="button" data-v="Both" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-brand.jpg" alt="" style="object-position:30% 50%"></span><b>Both</b><span class="sub">A piece on site that also lives online</span></button>
+    </div>
+  </section>
+
+  <section data-s="space" hidden>
+    <h1 class="q">What's the <em>space?</em></h1>
+    <div class="tiles" data-k="space">
       <button class="tile" type="button" data-v="Hotel" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-lobby.jpg" alt=""></span><b>Hotel</b></button>
       <button class="tile" type="button" data-v="Office" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-office.jpg" alt=""></span><b>Office</b></button>
       <button class="tile" type="button" data-v="Residence" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-residence.jpg" alt=""></span><b>Residence</b></button>
-      <button class="tile" type="button" data-v="Brand" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-brand.jpg" alt="" style="object-position:30% 50%"></span><b>Brand</b></button>
+      <button class="tile" type="button" data-v="Brand" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-brand.jpg" alt="" style="object-position:30% 50%"></span><b>Store or brand space</b></button>
       <button class="tile" type="button" data-v="Public" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-plaza.jpg" alt=""></span><b>Public</b></button>
       <button class="tile txt" type="button" data-v="Other" aria-pressed="false"><span class="ck">✓</span><span class="big">+</span><b>Other</b></button>
     </div>
   </section>
 
-  <section data-s="2" hidden>
-    <h1 class="q">What do you <em>need?</em></h1>
-    <div class="tiles" data-k="need" data-multi>
-      <button class="tile" type="button" data-v="Ready artworks" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/art-field-blue.jpg" alt=""></span><b>Ready artworks</b></button>
-      <button class="tile" type="button" data-v="A commission" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/art-gesture-ultramarine.jpg" alt=""></span><b>A commission</b></button>
-      <button class="tile" type="button" data-v="Sculpture" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/play-white-room.jpg" alt=""></span><b>Sculpture</b></button>
-      <button class="tile" type="button" data-v="Many spaces" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/art-marks-graphite.jpg" alt=""></span><b>Many spaces</b></button>
-      <button class="tile" type="button" data-v="Online collaboration" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/play-blue-room.jpg" alt=""></span><b>Online collab</b></button>
-      <button class="tile txt" type="button" data-v="Not sure" aria-pressed="false" data-x><span class="ck">✓</span><span class="big">?</span><b>Not sure yet</b></button>
+  <section data-s="site" hidden>
+    <h1 class="q">Tell us about <em>the site</em></h1>
+    <div class="grp"><span class="lb">Indoor or outdoor?</span><div class="chips" data-c="site.setting"><button class="chip" type="button">Indoor</button><button class="chip" type="button">Outdoor</button><button class="chip" type="button">Semi-open</button></div><span class="err" id="e-setting" hidden>Pick one.</span></div>
+    <div class="grp reveal" id="expo" hidden><span class="lb">Weather it faces <span class="opt">pick all that apply</span></span><div class="chips" data-m="site.exposure"><button class="chip" type="button">Direct sun</button><button class="chip" type="button">Rain</button><button class="chip" type="button">Humidity</button><button class="chip" type="button">Salt air</button><button class="chip" type="button">Wind</button><button class="chip" type="button">Heat and cold swings</button></div></div>
+    <div class="grp"><span class="lb">Where will it go?</span><div class="chips" data-c="site.placement"><button class="chip" type="button">Wall</button><button class="chip" type="button">Floor</button><button class="chip" type="button">Suspended</button><button class="chip" type="button">Facade</button><button class="chip" type="button">Landscape</button></div><span class="err" id="e-placement" hidden>Pick a placement.</span></div>
+    <div class="grp"><span class="lb">Available size <span class="opt">optional</span></span>
+      <div class="two"><input class="in sm" id="sw" inputmode="decimal" placeholder="Width, m"><input class="in sm" id="sh" inputmode="decimal" placeholder="Height, m"></div>
+      <span class="hint">Or roughly:</span>
+      <div class="chips" data-c="site.sizeClass"><button class="chip" type="button">Small</button><button class="chip" type="button">Medium</button><button class="chip" type="button">Large</button><button class="chip" type="button">Monumental</button></div>
+      <span class="hint">Small under 1 m · Medium 1–2.5 m · Large 2.5–6 m · Monumental 6 m+</span></div>
+    <div class="grp"><span class="lb">People around it <span class="opt">optional</span></span><div class="chips" data-c="site.traffic"><button class="chip" type="button">Low</button><button class="chip" type="button">Medium</button><button class="chip" type="button">High</button></div>
+      <div class="chips" data-m="site.risks"><button class="chip" type="button">Children</button><button class="chip" type="button">Unattended public</button><button class="chip" type="button">Wet area</button></div></div>
+  </section>
+
+  <section data-s="purpose" hidden>
+    <h1 class="q">What should it <em>do?</em></h1>
+    <div class="grp rng"><span class="lb">Looked at or used?</span><input type="range" id="lvlr" min="0" max="4" step="1" value="1" aria-describedby="lvlo"><div class="ends"><span>Only to look at</span><output id="lvlo">Mostly to look at</output><span>Used every day</span></div></div>
+    <div class="grp"><span class="lb">Jobs it should do <span class="opt">optional</span></span><div class="chips" data-m="purpose.functions"><button class="chip" type="button">Photo spot</button><button class="chip" type="button">Landmark</button><button class="chip" type="button">Seating</button><button class="chip" type="button">Wayfinding</button><button class="chip" type="button">Acoustic</button><button class="chip" type="button">Shade</button><button class="chip" type="button">Lighting</button><button class="chip" type="button">Brand storytelling</button></div></div>
+    <div class="grp"><span class="lb">The space today <span class="opt">optional</span></span><div class="chips" data-m="design.styles"><button class="chip" type="button">Minimal</button><button class="chip" type="button">Natural and tropical</button><button class="chip" type="button">Industrial</button><button class="chip" type="button">Classic</button><button class="chip" type="button">Luxury</button><button class="chip" type="button">Colourful</button></div>
+      <div class="chips" data-m="design.materials"><button class="chip" type="button">Wood</button><button class="chip" type="button">Stone</button><button class="chip" type="button">Concrete</button><button class="chip" type="button">Metal</button><button class="chip" type="button">Glass</button><button class="chip" type="button">Textile</button><button class="chip" type="button">Plants</button></div></div>
+    <div class="grp"><label class="drop" id="pdrop"><input type="file" id="pfile" accept="image/*" multiple><b>Add photos of the space</b><span class="st" id="pst">We read the colours of the room. Photos stay on your device.</span><span class="sws" id="psw"></span></label></div>
+    <div class="grp"><label class="lb" for="dnotes">Anything else about the space <span class="opt">optional</span></label><textarea class="in" id="dnotes" placeholder="Ceiling height, light, what's there now, what must not change…"></textarea></div>
+  </section>
+
+  <section data-s="online" hidden>
+    <h1 class="q">Tell us about <em>the campaign</em></h1>
+    <div class="grp"><span class="lb">Goal</span><div class="chips" data-c="online.goal"><button class="chip" type="button">Awareness</button><button class="chip" type="button">Launch</button><button class="chip" type="button">Engagement</button><button class="chip" type="button">Sales</button><button class="chip" type="button">Employer brand</button></div></div>
+    <div class="grp"><span class="lb">Channels</span><div class="chips" data-m="online.channels"><button class="chip" type="button">Instagram</button><button class="chip" type="button">TikTok</button><button class="chip" type="button">YouTube</button><button class="chip" type="button">Website</button><button class="chip" type="button">Newsletter</button><button class="chip" type="button">Out-of-home</button><button class="chip" type="button">In-store</button><button class="chip" type="button">Event</button></div></div>
+    <div class="grp"><span class="lb">What you need <span class="opt">optional</span></span><div class="chips" data-m="online.formats"><button class="chip" type="button">Key visual</button><button class="chip" type="button">Reels and video</button><button class="chip" type="button">Pattern and merch</button><button class="chip" type="button">Packaging</button><button class="chip" type="button">AR filter</button></div></div>
+    <div class="fld"><label for="oprod">Product or occasion</label><input class="in sm" id="oprod" placeholder="New collection, opening, anniversary…"></div>
+    <div class="fld"><label for="oaud">Audience</label><input class="in sm" id="oaud" placeholder="Who should it reach?"></div>
+    <div class="fld"><label for="omsg">Key message <span class="opt">optional</span></label><input class="in sm" id="omsg" placeholder="One line"></div>
+    <div class="fld"><label for="odate">Dates <span class="opt">optional</span></label><input class="in sm" id="odate" placeholder="e.g. March–April 2027"></div>
+  </section>
+
+  <section data-s="brand" hidden>
+    <h1 class="q">Your <em>brand</em></h1>
+    <div class="grp"><label class="drop" id="bdrop"><input type="file" id="bfile" accept=".pdf,application/pdf,image/*,.txt,.md" multiple><b>Upload your brand book</b><span class="st" id="bst">PDF or images. We read its text and colours in your browser — the file itself is not uploaded.</span></label></div>
+    <div class="grp"><span class="lb">Brand colours <span class="opt">edit if needed</span></span><div class="sws" id="bsw"></div></div>
+    <div class="two"><div class="fld"><label for="bname">Brand or property</label><input class="in sm" id="bname" autocomplete="organization" placeholder="Name"></div><div class="fld"><label for="bsite">Website <span class="opt">optional</span></label><input class="in sm" id="bsite" inputmode="url" placeholder="brand.com"></div></div>
+    <div class="grp" id="campq"><span class="lb">Is a campaign or promo running?</span><div class="chips" data-c="campaign.has"><button class="chip" type="button">Yes</button><button class="chip" type="button">No</button></div></div>
+    <div class="reveal" id="camp" hidden>
+      <div class="fld"><label for="cprod">Product or promo</label><input class="in sm" id="cprod" placeholder="What is being promoted?"></div>
+      <div class="fld"><label for="caud">Audience</label><input class="in sm" id="caud" placeholder="Who is it for?"></div>
+      <div class="grp"><span class="lb">Channels</span><div class="chips" data-m="campaign.channels"><button class="chip" type="button">Out-of-home</button><button class="chip" type="button">In-store</button><button class="chip" type="button">Event</button><button class="chip" type="button">Instagram</button><button class="chip" type="button">TikTok</button><button class="chip" type="button">Website</button></div></div>
+      <div class="fld"><label for="cdate">Dates <span class="opt">optional</span></label><input class="in sm" id="cdate" placeholder="e.g. Dec 2026 – Feb 2027"></div>
     </div>
   </section>
 
-  <section data-s="3" hidden>
-    <h1 class="q">Where <em>and when?</em></h1>
-    <p style="color:var(--ink-2);margin:-14px 0 22px">Last step. Then the AI matchmaker gets to work.</p>
+  <section data-s="final" hidden>
+    <h1 class="q">Budget, timing <em>and city</em></h1>
+    <div class="grp"><span class="lb">Open to <span class="opt">pick all that apply</span></span><div class="chips" data-m="routes"><button class="chip" type="button">Existing work</button><button class="chip" type="button">Adaptation</button><button class="chip" type="button">New commission</button><button class="chip" type="button">Not sure</button></div>
+      <span class="hint">Adaptation = an artist's existing motif made for your site: new material, new scale, or licensed for content.</span></div>
     <div class="fld"><label for="loc">City</label><input class="in" id="loc" autocomplete="address-level2" placeholder="Bangkok, Phuket, Moscow…"><span class="err" id="e-loc" hidden>Add a city so we know where to look.</span></div>
-    <div class="fld"><span style="font-weight:600">When <span class="opt">optional</span></span><div class="chips" data-k="when"><button class="chip" type="button" aria-pressed="false">ASAP</button><button class="chip" type="button" aria-pressed="false">3–6 months</button><button class="chip" type="button" aria-pressed="false">Later</button></div></div>
-    <div class="fld"><span style="font-weight:600">Budget <span class="opt">optional</span></span><div class="chips" data-k="budget"><button class="chip" type="button" aria-pressed="false">Under $25k</button><button class="chip" type="button" aria-pressed="false">$25–100k</button><button class="chip" type="button" aria-pressed="false">$100k+</button><button class="chip" type="button" aria-pressed="false">Not sure</button></div></div>
+    <div class="grp"><span class="lb">When <span class="opt">optional</span></span><div class="chips" data-c="when"><button class="chip" type="button">ASAP</button><button class="chip" type="button">3–6 months</button><button class="chip" type="button">Later</button></div></div>
+    <div class="grp"><span class="lb">Budget <span class="opt">optional</span></span><div class="chips" data-c="budget"><button class="chip" type="button">Under $25k</button><button class="chip" type="button">$25–100k</button><button class="chip" type="button">$100k+</button><button class="chip" type="button">Not sure</button></div></div>
+    <div class="grp"><span class="lb">Must have <span class="opt">optional</span></span><div class="chips" data-m="constraints.safety"><button class="chip" type="button">Low maintenance</button><button class="chip" type="button">Fire-rated</button><button class="chip" type="button">Child-safe</button><button class="chip" type="button">Anti-theft fixing</button></div></div>
   </section>
 
 </form>
-
 </main>
 <div class="go" id="gobar"><button class="pill p-blue p-xl" type="button" id="next">Next <span class="ar">→</span></button></div>
 <script src="ap-data.js"></script>
 <script src="assets/runtime.js"></script>
+<script src="assets/rank.js"></script>
+<script src="assets/brandread.js"></script>
 <script src="assets/match.js"></script>
 <script src="play.js"></script>
 <script>
-const st={space:'',need:[],when:'',budget:''};let s=1;const N=3;
-const secs=[...document.querySelectorAll('[data-s]')],next=document.getElementById('next');
-const map={hotel:'Hotel',office:'Office',residence:'Residence',brand:'Brand',public:'Public'};
-const h=location.hash.slice(1);if(map[h])st.space=map[h];
-const sty=store.get('ap_style',null);if(sty&&sty.tags){const el=document.getElementById('style');el.hidden=false;el.innerHTML='Your style: '+sty.tags.map(t=>'<span>'+t+'</span>').join('')}
-const prev=store.get('ap_brief',{});if(!st.space&&prev.space&&location.hash!=='#new')st.space=prev.space;
+/* Brief v2: track → space → site → purpose → brand/campaign → budget. Steps depend on the track. */
+const st={track:'',space:'',site:{exposure:[],risks:[]},purpose:{level:1,functions:[]},design:{styles:[],materials:[],colors:[]},
+  brand:{colors:[],book:null},campaign:{has:'',channels:[]},online:{channels:[],formats:[]},routes:[],constraints:{safety:[]},when:'',budget:''};
+const $=id=>document.getElementById(id),next=$('next');
+const FLOW={Physical:['track','space','site','purpose','brand','final'],Online:['track','online','brand','final'],Both:['track','space','site','purpose','online','brand','final']};
+let flow=['track'],i=0;
+const map={hotel:'Hotel',office:'Office',residence:'Residence',brand:'Brand',public:'Public'};const h=location.hash.slice(1);if(map[h])st.space=map[h];
+const sty=store.get('ap_style',null);if(sty&&sty.tags){const el=$('style');el.hidden=false;el.innerHTML='Your style: '+sty.tags.map(t=>'<span>'+t+'</span>').join('')}
+const get=p=>p.split('.').reduce((o,k)=>o&&o[k],st);
+const set=(p,v)=>{const ks=p.split('.');let o=st;ks.slice(0,-1).forEach(k=>o=o[k]);o[ks[ks.length-1]]=v};
+const LV=['Only to look at','Mostly to look at','Both','Mostly used','Used every day'];
 function paint(){
+  document.querySelectorAll('[data-k=track] .tile').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.track));
   document.querySelectorAll('[data-k=space] .tile').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.space));
-  document.querySelectorAll('[data-k=need] .tile').forEach(b=>b.setAttribute('aria-pressed',st.need.includes(b.dataset.v)));
-  const ok=s===1?!!st.space:s===2?st.need.length>0:true;next.disabled=!ok;
+  document.querySelectorAll('[data-c]').forEach(g=>{const v=get(g.dataset.c);g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.textContent===v))});
+  document.querySelectorAll('[data-m]').forEach(g=>{const v=get(g.dataset.m)||[];g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',v.includes(c.textContent)))});
+  $('expo').hidden=!st.site.setting||st.site.setting==='Indoor';
+  $('camp').hidden=st.campaign.has!=='Yes';$('campq').hidden=st.track==='Online';
+  $('bsw').innerHTML=st.brand.colors.map((c,k)=>'<span class="sw" style="background:'+c+'" title="'+c+'"><button type="button" class="rm" data-rm="'+k+'" aria-label="Remove '+c+'">×</button></span>').join('')+'<label class="sw add" title="Add a colour">+<input type="color" id="addc" aria-label="Add a brand colour"></label>';
+  const s=flow[i];next.disabled=s==='track'?!st.track:s==='space'?!st.space:false;
 }
-function show(n){s=n;secs.forEach(x=>x.hidden=+x.dataset.s!==n);document.getElementById('bar').style.width=(n/N*100)+'%';
-  document.getElementById('lvl').textContent='Step '+n+' of '+N;document.getElementById('back').hidden=n===1;
-  next.innerHTML=n<N?'Next <span class="ar">→</span>':'Find my matches <span class="ar">✦</span>';paint();window.scrollTo({top:0,behavior:'smooth'});
-  const q=secs[n-1].querySelector('.q');q.tabIndex=-1;q.focus({preventScroll:true});}
-document.querySelector('[data-k=space]').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;st.space=b.dataset.v;paint();setTimeout(()=>show(2),260)});
-document.querySelector('[data-k=need]').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;const v=b.dataset.v;
-  if(b.hasAttribute('data-x'))st.need=st.need.includes(v)?[]:[v];else{st.need=st.need.filter(x=>x!=='Not sure');st.need=st.need.includes(v)?st.need.filter(x=>x!==v):[...st.need,v]}paint()});
-document.querySelectorAll('.chips').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const on=b.getAttribute('aria-pressed')!=='true';g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b&&on));st[g.dataset.k]=on?b.textContent:''}));
-function err(id,on){document.getElementById('e-'+id).hidden=!on;const i=document.getElementById(id);if(i&&i.classList.contains('in'))i.setAttribute('aria-invalid',on);return on}
-next.addEventListener('click',()=>{
-  if(s===3){if(err('loc',document.getElementById('loc').value.trim().length<2)){document.getElementById('loc').focus();return}
-    const full={...st,city:document.getElementById('loc').value.trim()};store.set('ap_brief',full);next.disabled=true;next.innerHTML='Saving your brief…';
+function show(n){i=n;const s=flow[i];document.querySelectorAll('[data-s]').forEach(x=>x.hidden=x.dataset.s!==s);
+  $('bar').style.width=((i+1)/flow.length*100)+'%';$('lvl').textContent=i===0?'Step 1':'Step '+(i+1)+' of '+flow.length;$('back').hidden=i===0;
+  next.innerHTML=i<flow.length-1?'Next <span class="ar">→</span>':'Find my matches <span class="ar">✦</span>';paint();window.scrollTo({top:0,behavior:'smooth'});
+  const q=document.querySelector('[data-s='+s+'] .q');q.tabIndex=-1;q.focus({preventScroll:true})}
+document.querySelector('[data-k=track]').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;st.track=b.dataset.v;flow=FLOW[st.track];if(st.track==='Online'&&!st.space)st.space='Brand';paint();setTimeout(()=>show(1),260)});
+document.querySelector('[data-k=space]').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;st.space=b.dataset.v;paint();setTimeout(()=>show(i+1),260)});
+document.querySelectorAll('[data-c]').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const v=b.textContent;set(g.dataset.c,get(g.dataset.c)===v?'':v);
+  if(g.dataset.c==='site.setting')$('e-setting').hidden=true;if(g.dataset.c==='site.placement')$('e-placement').hidden=true;paint()}));
+document.querySelectorAll('[data-m]').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const v=b.textContent;let a=get(g.dataset.m)||[];
+  a=a.includes(v)?a.filter(x=>x!==v):[...a,v];if(g.dataset.m==='routes'){a=v==='Not sure'&&a.includes(v)?['Not sure']:a.filter(x=>x!=='Not sure'||v==='Not sure')}set(g.dataset.m,a);paint()}));
+$('lvlr').addEventListener('input',e=>{st.purpose.level=+e.target.value;$('lvlo').textContent=LV[st.purpose.level]});
+$('bsw').addEventListener('click',e=>{const r=e.target.closest('[data-rm]');if(r){st.brand.colors.splice(+r.dataset.rm,1);paint()}});
+$('bsw').addEventListener('change',e=>{if(e.target.id==='addc'){const c=e.target.value.toLowerCase();if(!st.brand.colors.includes(c))st.brand.colors.push(c);paint()}});
+function drop(zone,input,fn){['dragenter','dragover'].forEach(t=>zone.addEventListener(t,e=>{e.preventDefault();zone.classList.add('on')}));['dragleave','drop'].forEach(t=>zone.addEventListener(t,e=>{e.preventDefault();zone.classList.remove('on')}));
+  zone.addEventListener('drop',e=>e.dataTransfer.files.length&&fn(e.dataTransfer.files));input.addEventListener('change',()=>input.files.length&&fn(input.files))}
+drop($('bdrop'),$('bfile'),async files=>{const s=$('bst');s.textContent='Reading your brand book…';
+  try{const r=await APB.read(files);st.brand.book=r;r.colors.forEach(c=>{if(!st.brand.colors.includes(c)&&st.brand.colors.length<8)st.brand.colors.push(c)});
+    s.textContent='Read '+r.files.join(', ')+' · '+(r.pages?r.pages+' page'+(r.pages>1?'s':'')+' · ':'')+(r.text.trim().length>40?(r.text.length>=1000?Math.round(r.text.length/1000)+'k':r.text.trim().length)+' characters of text · ':'no text found (images only) · ')+r.colors.length+' colours';
+    if(!$('bname').value){const m=r.files[0].replace(/\.[a-z0-9]+$/i,'').replace(/[_-]+/g,' ').replace(/brand ?book|guidelines?|brandbook/ig,'').trim();if(m.length>1&&m.length<40)$('bname').value=m}}
+  catch(e){console.warn(e);s.textContent='Could not read this file. Try a PDF or images, or add the colours by hand below.'}paint()});
+drop($('pdrop'),$('pfile'),async files=>{const s=$('pst');s.textContent='Reading colours…';try{const r=await APB.photos(files);st.design.colors=r.colors;s.textContent=r.count+' photo'+(r.count>1?'s':'')+' read · colours of the room:';
+  $('psw').innerHTML=r.colors.map(c=>'<span class="sw" style="background:'+c+'" title="'+c+'"></span>').join('')}catch(e){s.textContent='Could not read these photos.'}});
+function err(id,on){const e=$('e-'+id);if(e)e.hidden=!on;const x=$(id);if(x&&x.classList.contains('in'))x.setAttribute('aria-invalid',on);return on}
+function collect(){const num=v=>{const n=parseFloat(String(v).replace(',','.'));return n>0?n:''};
+  st.site.w=num($('sw').value);st.site.h=num($('sh').value);if(st.site.risks.includes('Wet area')&&!st.site.exposure.includes('Humidity'))st.site.exposure.push('Humidity');
+  st.design.notes=$('dnotes').value.trim();st.brand.name=$('bname').value.trim();st.brand.site=$('bsite').value.trim();
+  Object.assign(st.campaign,{product:$('cprod').value.trim(),audience:$('caud').value.trim(),dates:$('cdate').value.trim()});
+  Object.assign(st.online,{product:$('oprod').value.trim(),audience:$('oaud').value.trim(),message:$('omsg').value.trim(),dates:$('odate').value.trim()});
+  st.constraints.lowMaintenance=st.constraints.safety.includes('Low maintenance');st.city=$('loc').value.trim();
+  if(st.track==='Online'){st.site=null;st.purpose=null;st.design=null}
+  if(st.track==='Physical')st.online=null;if(st.campaign.has!=='Yes'&&st.track!=='Online')st.campaign=st.campaign.has==='No'?{has:'No'}:null;
+  return st}
+next.addEventListener('click',()=>{const s=flow[i];
+  if(s==='site'){const a=err('setting',!st.site.setting),b=err('placement',!st.site.placement);if(a||b){document.querySelector('[data-s=site] .err:not([hidden])').scrollIntoView({behavior:'smooth',block:'center'});return}}
+  if(s==='final'){if(err('loc',$('loc').value.trim().length<2)){$('loc').focus();return}
+    const full=collect();const keep=JSON.parse(JSON.stringify(full));if(keep.brand&&keep.brand.book)keep.brand.book.text=keep.brand.book.text.slice(0,2000);store.set('ap_brief',keep);
+    next.disabled=true;next.innerHTML='Saving your brief…';
     APM.saveBrief(full,store.get('ap_style',null)).then(r=>{store.set('ap_brief_id',r.id);location.href='generate.html?brief='+encodeURIComponent(r.id)}).catch(()=>{store.set('ap_brief_id',null);location.href='generate.html'});return}
-  if(s<N)show(s+1)});
-document.getElementById('back').addEventListener('click',()=>show(s-1));
-document.getElementById('loc').addEventListener('input',()=>err('loc',false));
-document.getElementById('f').addEventListener('submit',e=>e.preventDefault());
-show(st.space?2:1);
+  if(i<flow.length-1)show(i+1)});
+$('back').addEventListener('click',()=>show(i-1));
+$('loc').addEventListener('input',()=>err('loc',false));
+$('f').addEventListener('submit',e=>e.preventDefault());
+if(st.space){st.track='Physical';flow=FLOW.Physical;show(2)}else show(0);
 </script>
 </body></html>

@@ -800,7 +800,16 @@ Pick 2-3 works. Plain English, no hype.`;
 }
 
 /* ---------------- brief view ---------------- */
+function critBlock(m){
+  const L={strong:"Strong",good:"Good",weak:"Weak",unknown:"To verify"};
+  const N={concept:m.fit&&m.fit.brand?"Brand & story":"Brand & campaign",structure:"Structure & placement",materials:"Materials & climate",size:"Size & scale",colour:"Colour",ergonomics:"Purpose & ergonomics",safety:"Safety",budget:"Budget",speed:"Speed",adapt:"Formats & adaptation",scrollstop:"Scroll-stop",rights:"Rights & licensing"};
+  const c=m.criteria||{};const S=m.spec,U=m.uvp||{};
+  const crit=`<div class="fits">${Object.keys(c).map(k=>{const f=c[k]||{};const lv=L[f.level]?f.level:"unknown";return `<div class="fit ${lv}"><b>${esc(N[k]||k)}</b><span class="lv">${L[lv]}</span><span>${esc(f.reason||"")}</span></div>`}).join("")}</div>`;
+  const spec=S?`<div class="concept"><div class="eyebrow">Proposed piece · ${esc(S.routeName||"")}</div><h5>${esc(S.title||"")}</h5>${[["Structure",S.structure],["Materials",S.materials],["Size",S.size],["Colour",S.palette],["Use",S.ergonomics],["Safety",S.safety],["Budget",S.budget],["Timeline",S.timeline],["Care",S.maintenance]].filter(r=>r[1]).map(r=>`<p style="margin-top:6px"><b>${r[0]}:</b> ${esc(r[1])}</p>`).join("")}${[["Faster",U.faster],["Better",U.better],["Cheaper",U.cheaper],["Client",U.client],["Artist",U.artist]].filter(r=>r[1]).map(r=>`<p style="margin-top:6px;opacity:.9"><b>${r[0]}:</b> ${esc(r[1])}</p>`).join("")}</div>`:"";
+  return crit+spec;
+}
 function fitBlock(m){
+  if(m.criteria)return critBlock(m);
   const L={strong:"Strong",good:"Good",weak:"Weak",unknown:"To verify"};
   const names=(m.fit&&m.fit.brand)?{brand:"Brand",scrollstop:"Scroll-stop",adapt:"Adaptability",story:"Story & collab",rights:"Rights"}:{aesthetic:"Aesthetic",conceptual:"Conceptual",project:"Project",commercial:"Commercial"};
   return `<div class="fits">${Object.keys(names).map(k=>{const f=(m.fit||{})[k]||{level:"unknown",reason:""};const lv=L[f.level]?f.level:"unknown";
@@ -808,7 +817,7 @@ function fitBlock(m){
 }
 function renderBrief(b){
   const reqs=REQS.filter(r=>r.briefId===b.id);
-  const facts=[["Track",b.track],["Style",(b.style&&b.style.tags||[]).join(", ")],["Property",b.property],["City",b.city],["Space",b.space],["Need",b.objectType],["Budget",b.budget],["Deadline",b.deadline],["Size",b.size]].filter(x=>x[1]);
+  const _s=b.site||{},_p=b.purpose||{},_bk=b.brand&&b.brand.book;const facts=[["Track",b.track],["Style",(b.style&&b.style.tags||[]).join(", ")],["Site",[_s.setting,_s.placement].filter(Boolean).join(" · ")],["Weather",(_s.exposure||[]).join(", ")],["Traffic & risks",[_s.traffic,...(_s.risks||[])].filter(Boolean).join(", ")],["Purpose",(_p.functions||[]).join(", ")||(_p.level!=null?["Only to look at","Mostly to look at","Look and use","Mostly used","Used every day"][_p.level]:"")],["Space today",b.design?[...(b.design.styles||[]),...(b.design.materials||[])].join(", "):""],["Brand book",_bk?(_bk.files||[]).join(", ")+(_bk.colors&&_bk.colors.length?" · "+_bk.colors.join(" "):""):""],["Campaign",b.campaign&&b.campaign.product?b.campaign.product+(b.campaign.audience?" → "+b.campaign.audience:""):""],["Online",b.online?[b.online.goal,(b.online.channels||[]).join(", ")].filter(Boolean).join(" · "):""],["Open to",(b.routes||[]).join(", ")],["Property",b.property],["City",b.city],["Space",b.space],["Need",b.objectType],["Budget",b.budget],["Deadline",b.deadline],["Size",b.size]].filter(x=>x[1]);
   let matchHtml="";
   const m=b.match;
   if(MATCHING.has(b.id)){
@@ -820,7 +829,7 @@ function renderBrief(b){
     <div class="match"><a class="frame" href="#artist-${a.id}"><img src="${a.portrait}" alt="${esc(a.name)}"></a>
     <div style="display:grid;gap:14px;min-width:0"><div><div class="eyebrow">${esc(a.line)}</div><h4>${esc(a.name)}</h4><a class="linkbtn" href="#artist-${a.id}">View artist profile</a></div>
     ${m.why?.length?`<ul class="why">${m.why.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}</div></div></div>
-    ${m.fit?fitBlock(m):""}
+    ${m.criteria||m.fit?fitBlock(m):""}
     ${m.works?.length?`<div style="display:grid;gap:12px"><h3>Real works to consider</h3><div class="recs">${m.works.filter(x=>W[x.id]).map(x=>{const w=W[x.id];return `<div class="rec"><img src="${w.img}" alt="${esc(w.title)}" data-work="${w.id}"><div class="b"><span class="t">${esc(w.title)}</span><span class="muted">${esc(w.dims)}</span><span class="tnum">${usd(w.price)}</span>${x.note?`<span class="muted" style="font-size:12px">${esc(x.note)}</span>`:""}
       ${b.example?"":`<button class="btn small ghost" type="button" data-req-work="${w.id}" ${reqs.some(r=>r.workId===w.id)?"disabled":""}>${reqs.some(r=>r.workId===w.id)?"Requested":"Request availability"}</button>`}</div></div>`}).join("")}</div></div>`:""}
     ${m.caveats?.length?`<div><h3 style="margin-bottom:8px">Before you decide</h3><ul class="why">${m.caveats.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:""}

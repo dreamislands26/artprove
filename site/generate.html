@@ -86,6 +86,22 @@ body{background:var(--ice)}
 .plan ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2);display:grid;gap:4px}
 .x{justify-self:end;background:var(--ice);border:0;width:44px;height:44px;border-radius:50%;font-size:18px}
 .fine{font-size:12px;color:var(--ink-2)}
+.crit{display:grid;gap:10px}
+.crit .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.crit .c{border-radius:16px;background:var(--ice);padding:12px 14px;display:grid;gap:4px}
+.crit .c b{font:600 14px/1.2 var(--ui)}
+.crit .c i{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;font-style:normal}
+.crit .c span{font-size:13px;color:var(--ink-2);line-height:1.35}
+.crit .strong i{color:#1a7f37}.crit .good i{color:var(--blue)}.crit .weak i{color:#b45309}.crit .unknown i{color:var(--ink-2)}
+.spec{display:grid;gap:12px;border:2px solid var(--blue);border-radius:24px;padding:18px 20px}
+.spec h3{font:700 22px/1.1 var(--display)}
+.spec .rt{justify-self:start;display:inline-block;background:var(--blue);color:#fff;font-weight:600;font-size:13px;padding:5px 10px;border-radius:99px}
+.spec dl{display:grid;grid-template-columns:140px 1fr;gap:6px 14px;margin:0;font-size:14px}
+.spec dt{color:var(--ink-2)}.spec dd{margin:0}
+.uvp{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.uvp div{background:var(--blue-soft);border-radius:16px;padding:12px 14px;font-size:14px;line-height:1.35}
+.uvp b{display:block;font:700 15px/1.2 var(--display);color:var(--blue);margin-bottom:4px}
+@media (max-width:600px){.spec dl{grid-template-columns:1fr}.spec dt{margin-top:6px}}
 </style>
 </head><body>
 <div class="proto">Pilot · AI matches, checked by a curator · room visuals are concept renders</div>
@@ -115,6 +131,8 @@ body{background:var(--ice)}
     <div class="vis"><img id="hero" src="img/room-lobby.jpg" alt="Concept visual of the proposal in your space"><span class="badge" id="vlab">Option A</span><span class="concept">Concept render</span></div>
     <div class="vars" id="vars" role="group" aria-label="Options"></div>
     <div class="whyp"><span class="tag" id="msrc" style="color:var(--blue)"></span><ul id="why"></ul></div>
+    <div class="spec" id="spec" hidden></div>
+    <div class="crit" id="crit" hidden></div>
     <div class="dirs" id="dirs"></div>
   </section>
 
@@ -152,6 +170,7 @@ body{background:var(--ice)}
 
 <script src="ap-data.js"></script>
 <script src="assets/runtime.js"></script>
+<script src="assets/rank.js"></script>
 <script src="assets/match.js"></script>
 <script src="play.js"></script>
 <script>
@@ -166,12 +185,12 @@ const W=APM.WD(),A=APD.artists;
 const space=()=>{const s=(brief&&brief.space)||sess.space;return s&&ROOMS[s]?s:'Hotel'};
 const tagsOf=()=>((brief&&brief.style&&brief.style.tags&&brief.style.tags.length)?brief.style.tags:(sty.tags||[])).slice(0,3);
 
-function visHTML(k){const d=M.directions[k];const w=W[d.workId];const room=ROOMS[space()][k%3];
+function visHTML(k){const d=M.directions[k];const w=W[d.workId];const room=(brief&&brief.site&&/Outdoor|Semi/.test(brief.site.setting||''))?'room-plaza':ROOMS[space()][k%3];
   if(w&&w.sp)return {img:'<img src="img/'+w.sp+'.jpg" alt="Exhibition view of work by '+E(w.by)+'">',lab:"Artist's exhibition view"};
   return {img:'<img src="img/'+room+'.jpg" alt="Concept render of your space"><img class="wk" src="img/'+w.img+'.jpg" alt="'+E(w.title)+', '+E(w.by)+'">',lab:'Real work · concept room'};}
 function draw(){
   const sp=space(),tags=tagsOf(),a=A[M.artistId];
-  document.getElementById('sp').textContent=sp.toLowerCase();
+  document.getElementById('sp').textContent=(brief&&brief.track==='Online')?'campaign':sp.toLowerCase();
   const v=visHTML(opt);const vis=document.querySelector('.vis');
   vis.innerHTML=v.img+'<span class="badge" id="vlab">Option '+'ABC'[opt]+'</span><span class="concept">'+v.lab+'</span>';
   document.getElementById('vars').innerHTML=M.directions.map((d,k)=>'<button type="button" aria-pressed="'+(k===opt)+'" data-o="'+k+'"><img src="img/'+W[d.workId].img+'.jpg" alt=""><b>'+'ABC'[k]+'</b></button>').join('');
@@ -180,11 +199,18 @@ function draw(){
   document.getElementById('art').innerHTML=ids.map((id,k)=>{const x=A[id];const w=APD.works.find(w=>w.aid===id);if(!x||!w)return '';
     return '<div class="ac"><img src="img/'+w.img+'.jpg" alt="Work by a matched artist">'+(unlocked?'':'<span class="lk" aria-hidden="true">🔒</span>')+'<div class="nm"><b class="'+(unlocked?'':'bl')+'">'+(unlocked?E(x.short):'Artist name')+'</b><span>'+(k===0?'Best match':'Also fits')+' · '+E(x.medium)+'</span></div></div>'}).join('');
   document.querySelectorAll('.ac .nm b.bl').forEach(b=>b.style.filter='blur(5px)');
-  document.getElementById('kv').innerHTML=[['Space',sp],['City',(brief&&brief.city)||sess.city||'—'],['Need',(brief&&brief.objectType)||(sess.need||[]).join(', ')||'—'],['When',(brief&&brief.deadline)||'—'],['Budget',(brief&&brief.budget)||'—']].map(r=>'<div><span>'+r[0]+'</span><b>'+E(r[1])+'</b></div>').join('');
+  const b=brief||{},si=b.site||{},pu=b.purpose||{};document.getElementById('kv').innerHTML=[['Track',b.track],['Space',b.track==='Online'?'':sp],['Site',[si.setting,si.placement].filter(Boolean).join(' · ')],['Weather',(si.exposure||[]).join(', ')],['Size',b.size],['Purpose',pu.functions&&pu.functions.length?pu.functions.join(', '):(pu.level!=null?['Only to look at','Mostly to look at','Look and use','Mostly used','Used every day'][pu.level]:'')],['Brand',b.brand&&(b.brand.name||(b.brand.book?'Brand book read':''))],['Campaign',(b.campaign&&b.campaign.product)||(b.online&&(b.online.goal||b.online.product))],['City',b.city||sess.city||'—'],['When',b.deadline||'—'],['Budget',b.budget||'—']].filter(r=>r[1]).map(r=>'<div><span>'+r[0]+'</span><b>'+E(r[1])+'</b></div>').join('');
   document.getElementById('chips').innerHTML=tags.map(t=>'<span>'+E(t)+'</span>').join('');
   document.getElementById('cred').textContent=credits;
   const why=document.getElementById('why');why.innerHTML=(M.why||[]).map(x=>'<li>'+E(x)+'</li>').join('');
   const src=document.getElementById('msrc');src.textContent=M.source==='ai'?'AI match · a curator checks it next':'Quick match from your style · a curator checks it next';
+  const LVN={strong:'Strong',good:'Good',weak:'Weak',unknown:'To check'};const CN=(brief&&brief.track==='Online')?Object.assign({},APR.CRIT,APR.CRIT_ONLINE):Object.assign({},APR.CRIT_ONLINE,APR.CRIT);
+  const cr=M.criteria||{},ce=document.getElementById('crit');ce.hidden=!Object.keys(cr).length;
+  ce.innerHTML='<span class="tag" style="color:var(--blue)">How it fits your brief</span><div class="cg">'+Object.keys(cr).map(k=>{const c=cr[k]||{};const lv=LVN[c.level]?c.level:'unknown';return '<div class="c '+lv+'"><b>'+E(CN[k]||k)+'</b><i>'+LVN[lv]+'</i><span>'+E(c.reason||'')+'</span></div>'}).join('')+'</div>';
+  const S=M.spec,se=document.getElementById('spec');se.hidden=!S;
+  if(S){const U=M.uvp||{};const rows=[['Structure',S.structure],['Materials',S.materials],['Size',S.size],['Colour',S.palette],['Use',S.ergonomics],['Safety',S.safety],['Budget',S.budget],['Timeline',S.timeline],['Care',S.maintenance]].filter(r=>r[1]);
+    se.innerHTML='<span class="tag" style="color:var(--blue)">Proposed piece</span><h3>'+E(S.title||'Your piece')+'</h3><span class="rt">'+E(S.routeName||'')+'</span><dl>'+rows.map(r=>'<dt>'+r[0]+'</dt><dd>'+E(r[1])+'</dd>').join('')+'</dl>'+
+      '<div class="uvp">'+[['Faster',U.faster],['Better',U.better],['Cheaper',U.cheaper],['For you',U.client],['For the artist',U.artist]].filter(r=>r[1]).map(r=>'<div><b>'+r[0]+'</b>'+E(r[1])+'</div>').join('')+'</div>'}
   const bud=document.getElementById('bud');if(unlocked)bud.innerHTML='<div><span>Artworks</span><b>Price on request</b></div><div><span>Commission</span><b>Quote from the artist</b></div><div><span>Timeline</span><b>Confirmed by the curator</b></div>';
   const ul=document.getElementById('unl');if(unlocked){ul.innerHTML='<h2>Your proposal is open</h2><ul><li>Artist: '+E(a.name)+'</li><li>A curator contacts you within 48 hours with prices and availability.</li></ul><a class="pill p-white" href="/catalog/?brief='+encodeURIComponent(briefId)+'#business">Open full proposal <span class="ar">→</span></a>'}
 }
@@ -193,7 +219,7 @@ async function run(exclude){
   document.getElementById('load').hidden=false;document.getElementById('studio').hidden=true;document.getElementById('mbar').hidden=true;
   const t1=setTimeout(()=>li[1].classList.add('on'),900);
   try{
-    if(!briefId){const r=await APM.saveBrief({space:sess.space||'Hotel',need:sess.need||[],city:sess.city||'',when:sess.when||'',budget:sess.budget||''},sty);briefId=r.id;store.set('ap_brief_id',briefId);history.replaceState(null,'','?brief='+briefId)}
+    if(!briefId){const r=await APM.saveBrief(sess.track?sess:{space:sess.space||'Hotel',need:sess.need||[],city:sess.city||'',when:sess.when||'',budget:sess.budget||''},sty);briefId=r.id;store.set('ap_brief_id',briefId);history.replaceState(null,'','?brief='+briefId)}
     brief=brief||await APM.loadBrief(briefId)||{space:sess.space,city:sess.city,style:sty};
     if(!exclude&&brief.match&&brief.match.directions){M=brief.match}else{M=await APM.match(brief,exclude);await APM.saveMatch(briefId,M).catch(()=>{})}
   }catch(e){console.warn(e);brief=brief||{space:sess.space,city:sess.city,style:sty};M=APM.heuristic(brief,exclude||[])}
