@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Collaboration concept · ART PROVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="/play.css">
+<style>
+.cb{max-width:980px;margin:0 auto;padding:40px var(--gr) 120px var(--gl);display:grid;gap:28px}
+.disc{background:var(--ice);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:13px;color:var(--ink-2)}
+.cb h1{font-size:clamp(34px,6vw,64px);line-height:1}
+.cb h1 em{font-style:normal;color:var(--blue)}
+.lead{font-size:20px;line-height:1.45;max-width:46ch}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.facts div{background:var(--ice);border-radius:16px;padding:14px 16px}
+.facts b{display:block;font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:8px}
+.vis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.vis figure{margin:0;border-radius:20px;overflow:hidden;background:var(--ice);position:relative}
+.vis img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.vis figcaption{font-size:12px;color:var(--ink-2);padding:8px 12px}
+.lock{position:relative;border-radius:24px;overflow:hidden;border:2px solid var(--blue)}
+.lock .bl{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px;filter:blur(14px);opacity:.75}
+.lock .bl i{display:block;aspect-ratio:3/4;border-radius:14px;background:linear-gradient(135deg,var(--blue-soft),var(--blue) 60%,#f2c14e)}
+.lock .bl i:nth-child(2){background:linear-gradient(160deg,#f6d7c3,var(--blue-deep))}
+.lock .bl i:nth-child(3){background:linear-gradient(120deg,var(--ice),#7a86ff 50%,#1a24b5)}
+.lock .ov{position:relative;display:grid;place-items:center;padding:40px 20px;background:rgba(255,255,255,.55)}
+.lock .card{background:#fff;border-radius:22px;padding:22px;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(14,15,26,.18);display:grid;gap:12px}
+.lock h2{font-size:22px}
+.lock ul{margin:0;padding-left:18px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.uf{display:grid;gap:10px}
+.uf input{min-height:52px;border:2px solid var(--line);border-radius:14px;padding:0 16px;font:500 16px var(--ui)}
+.uf input:focus{border-color:var(--blue);outline:none}
+.uf .err{color:#b42318;font-size:13px}
+.ok{background:var(--blue);color:#fff;border-radius:22px;padding:22px;display:grid;gap:8px}
+.ok h2{font-size:22px}
+.nf{padding:80px 0;text-align:center;display:grid;gap:14px;justify-items:center}
+</style>
+</head>
+<body>
+<div class="proto">Private concept · not for publication</div>
+<header class="hdr"><div class="wrap"><a class="wm" href="/"><i aria-hidden="true"></i>ART PROVE</a></div></header>
+<main class="cb" id="main">
+  <div class="nf" id="nf" hidden><h1>Concept not found</h1><p>This link may have expired. Write to us and we will resend it.</p><a class="pill p-blue" href="/">artprove.com</a></div>
+  <div id="pg" hidden style="display:grid;gap:28px">
+    <p class="disc" id="disc"></p>
+    <span class="tag" style="color:var(--blue)">Collaboration concept by Art Prove</span>
+    <h1 id="h"></h1>
+    <p class="lead" id="idea"></p>
+    <div class="facts" id="facts"></div>
+    <div class="vis" id="vis" hidden></div>
+    <section class="lock" id="lock" aria-labelledby="lh">
+      <div class="bl" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="ov"><div class="card">
+        <h2 id="lh">Unlock the full concept</h2>
+        <ul id="incl"></ul>
+        <form class="uf" id="uf" novalidate>
+          <input id="u-mail" type="email" autocomplete="email" placeholder="Work email" aria-label="Work email" required>
+          <input id="u-name" autocomplete="name" placeholder="Your name" aria-label="Your name">
+          <input id="u-co" autocomplete="organization" placeholder="Company" aria-label="Company">
+          <span class="err" id="u-err" hidden></span>
+          <button class="pill p-blue" type="submit" id="u-go">Unlock — free <span class="ar">→</span></button>
+          <span class="hint" style="font-size:12px;color:var(--ink-2)">A curator sends the full concept to your work email within one business day. No payment.</span>
+        </form>
+      </div></div>
+    </section>
+    <div class="ok" id="ok" hidden><h2>Thank you — it's on its way</h2><p>A curator will send the full concept to your work email within one business day, with a 30-minute call option.</p></div>
+    <p class="disc" style="font-size:12px">Art Prove matches brands with artists and runs collaborations end to end: artist selection, concept, rights, production and a results report. First step is a two-week concept sprint.</p>
+  </div>
+</main>
+<script src="/ap-data.js"></script>
+<script src="/assets/runtime.js"></script>
+<script src="/assets/match.js"></script>
+<script src="/assets/collabs.js"></script>
+<script>
+(function(){
+  const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const tok=new URLSearchParams(location.search).get('c')||'';const C=(window.APC||{})[tok];
+  if(!C){document.getElementById('nf').hidden=false;return}
+  document.getElementById('pg').hidden=false;document.title=C.brand+' × artist · concept · ART PROVE';
+  document.getElementById('disc').textContent='Unofficial concept by Art Prove. Not affiliated with, endorsed by or produced for '+C.brand+'. The brand name is used only to describe the idea. Please do not share publicly.';
+  document.getElementById('h').innerHTML=E(C.brand)+' <em>×</em> '+(C.named?E(C.artist):'a Thai artist');
+  document.getElementById('idea').innerHTML='<b>'+E(C.title)+'.</b> '+E(C.idea);
+  const A=C.aid&&window.APD&&APD.artists[C.aid];
+  const facts=[['Artist',C.named?(A?A.name+(A.base?' · '+A.base:''):C.artist):'Named after unlock'],['Format',C.title],['In the full concept',C.full]];
+  if(A&&A.line)facts.splice(1,0,['Practice',A.line]);
+  document.getElementById('facts').innerHTML=facts.map(f=>'<div><b>'+E(f[0])+'</b>'+E(f[1])+'</div>').join('');
+  let vis=(C.visuals||[]).map(v=>({src:'/img/collab/'+v.file,cap:v.caption}));
+  if(!vis.length&&A){vis=(APD.works||[]).filter(w=>w.aid===C.aid).slice(0,2).map(w=>({src:'/img/'+w.img+'.jpg',cap:'Existing work by '+A.name+': '+w.title+(w.year?', '+w.year:'')}))}
+  if(vis.length){const v=document.getElementById('vis');v.hidden=false;v.innerHTML=vis.map(x=>'<figure><img src="'+E(x.src)+'" alt="'+E(x.cap)+'" loading="lazy"><figcaption>'+E(x.cap)+'</figcaption></figure>').join('')}
+  document.getElementById('incl').innerHTML=['Mockups: '+C.full,C.named?'Alternative artists for this brief':'Artist name, portfolio and why this artist','Timeline, budget range and expected results'].map(x=>'<li>'+E(x)+'</li>').join('');
+  const f=document.getElementById('uf'),err=document.getElementById('u-err');
+  f.addEventListener('submit',async e=>{e.preventDefault();const mail=document.getElementById('u-mail').value.trim(),name=document.getElementById('u-name').value.trim(),co=document.getElementById('u-co').value.trim();
+    const bad=!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)?'Enter a valid email.':APM.isFree(mail)?'Please use your work email.':'';
+    err.hidden=!bad;err.textContent=bad;if(bad)return;
+    const b=document.getElementById('u-go');b.disabled=true;b.textContent='Sending…';
+    try{await APM.lead({type:'unlock',plan:'collab:'+tok,email:mail,name,company:co||C.brand,message:'Demo collab: '+C.brand+' × '+(C.artist||'(artist hidden)')+' — '+C.title,source:'collab-demo'});
+      document.getElementById('lock').hidden=true;document.getElementById('ok').hidden=false}
+    catch(x){b.disabled=false;b.innerHTML='Unlock — free <span class="ar">→</span>';err.hidden=false;err.textContent='Could not send. Please try again or reply to our email.'}});
+})();
+</script>
+</body>
+</html>
