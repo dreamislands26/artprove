@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ART PROVE · AI Art Matchmaker</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="play.css">
+<style>
+.hero{position:relative;overflow:hidden;min-height:clamp(600px,86vh,880px);display:grid;align-items:end}
+.hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+.hero .fade{position:absolute;inset:0;background:linear-gradient(90deg,var(--blue) 0%,rgba(36,51,230,.85) 30%,rgba(36,51,230,0) 62%)}
+.hero .wrap{position:relative;z-index:2;width:100%;padding-block:56px 64px}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:11px 16px;font:500 clamp(12px,1.1vw,15px)/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;margin-bottom:20px}
+.hero .eyebrow i{width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.hero h1{font-size:clamp(54px,9.4vw,148px);line-height:.88;font-weight:800;max-width:9ch;animation:pop .8s var(--ease) both}
+.hero p.sub{font-size:clamp(18px,1.6vw,22px);margin-top:22px;max-width:30ch;opacity:.92}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.bub{position:absolute;z-index:2;background:var(--white);color:var(--blue);font:600 14px/1 var(--ui);padding:12px 16px;border-radius:99px;box-shadow:0 18px 40px -16px rgba(14,15,26,.45);display:flex;gap:8px;align-items:center;animation:float 5s ease-in-out infinite}
+.bub i{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.b1{right:9%;top:22%}.b2{right:30%;top:48%;animation-delay:-1.6s}.b3{right:7%;top:62%;animation-delay:-3.2s}
+@media (max-width:799px){
+  .hero{min-height:0;align-items:stretch}
+  .hero .bg{position:relative;height:380px;inset:auto}
+  .hero .fade{background:linear-gradient(180deg,rgba(36,51,230,0) 200px,var(--blue) 380px)}
+  .hero .wrap{padding-top:0;margin-top:-40px}
+  .hero .ctas .pill{flex:1 1 100%}
+  .b2{display:none}.b1{top:90px;right:16px}.b3{top:250px;right:auto;left:16px}
+}
+.hero .concept{left:auto;right:12px;top:12px;bottom:auto}
+
+.sec{padding-block:clamp(72px,9vw,128px)}
+.sec h2{font-size:clamp(36px,5.4vw,80px);line-height:.95}
+.sec .hd{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:36px}
+.spaces{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.sp{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:3/4;text-decoration:none;color:#fff;display:flex;align-items:flex-end;transition:transform .35s var(--ease)}
+.sp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.sp::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(26,36,181,.85),rgba(26,36,181,0) 50%)}
+.sp:hover{transform:translateY(-6px) rotate(-1deg)}
+.sp:hover img{transform:scale(1.06)}
+.sp b{position:relative;z-index:2;font:700 clamp(18px,1.7vw,24px)/1.05 var(--display);padding:20px;letter-spacing:-.02em}
+.sp .go{position:absolute;right:14px;top:14px;z-index:2;width:44px;height:44px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;font-weight:700;transform:scale(.6);opacity:0;transition:.25s var(--ease)}
+.sp:hover .go,.sp:focus-visible .go{transform:none;opacity:1}
+@media (max-width:899px){.spaces{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gl) * -1);padding-inline:var(--gl);scrollbar-width:none}.spaces::-webkit-scrollbar{display:none}.sp{flex:0 0 62%;scroll-snap-align:start}}
+
+.steps{display:grid;gap:14px;grid-template-columns:1fr;list-style:none;margin:0;padding:0}
+@media (min-width:800px){.steps{grid-template-columns:repeat(3,1fr)}}
+.steps li{background:var(--ice);border-radius:28px;padding:30px;display:grid;gap:14px;align-content:start;min-height:240px}
+.steps .n{width:64px;height:64px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:800 26px/1 var(--display)}
+.steps h3{font-size:clamp(28px,2.6vw,38px);line-height:1}
+.steps p{color:var(--ink-2);font-size:17px}
+
+.game{border-radius:36px;display:grid;gap:40px;padding:clamp(28px,5vw,64px);align-items:center;overflow:hidden}
+@media (min-width:900px){.game{grid-template-columns:1fr 1fr}}
+.game h2{font-size:clamp(36px,5vw,72px);line-height:.95}
+.game p{font-size:19px;margin:18px 0 28px;opacity:.9;max-width:28ch}
+.stack{position:relative;height:420px;max-width:420px;width:100%;justify-self:center}
+.stack .c{position:absolute;inset:0;margin:auto;width:72%;height:92%;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -24px rgba(0,0,0,.45);transition:transform .5s var(--ease)}
+.stack .c img{width:100%;height:100%;object-fit:cover}
+.stack .c:nth-child(1){transform:rotate(-9deg) translateX(-18%)}
+.stack .c:nth-child(2){transform:rotate(7deg) translateX(16%)}
+.stack .c:nth-child(3){transform:rotate(-1deg)}
+.game:hover .stack .c:nth-child(1){transform:rotate(-14deg) translateX(-26%)}
+.game:hover .stack .c:nth-child(2){transform:rotate(12deg) translateX(24%)}
+.stack .heart{position:absolute;right:6%;bottom:4%;z-index:5;width:76px;height:76px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;font-size:30px;box-shadow:0 14px 30px -10px rgba(0,0,0,.4);animation:float 4s ease-in-out infinite}
+
+.marq{overflow:hidden;padding-block:8px 0}
+.marq .row{display:flex;gap:14px;width:max-content;animation:scroll 40s linear infinite}
+.marq:hover .row{animation-play-state:paused}
+.marq img{width:200px;height:250px;object-fit:cover;border-radius:22px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+.final{text-align:center}
+.final .wrap{padding-block:clamp(90px,12vw,170px);display:grid;justify-items:center;gap:30px}
+.final h2{font-size:clamp(52px,10vw,160px);line-height:.85;font-weight:800}
+.join{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+.dt{display:none}
+@media (min-width:1000px){.dt{display:block}}
+.prev{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;background:var(--ice);border-radius:36px;padding:24px}
+.prev .v{position:relative;border-radius:24px;overflow:hidden}.prev .v img{width:100%;height:100%;object-fit:cover}
+.prev .r{display:grid;gap:12px;align-content:start}
+.prev .card{background:#fff;border-radius:22px;padding:18px;display:grid;gap:10px}
+.prev .card h3{font-size:18px}
+.prev .g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.prev .g img{aspect-ratio:1;object-fit:cover;border-radius:12px}
+.prev .nm{display:flex;gap:8px;flex-wrap:wrap}.prev .nm span{filter:blur(4px);background:var(--ice);padding:6px 10px;border-radius:99px;font-size:13px}
+.prev .bl{filter:blur(5px)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.plans .pl{border-radius:28px;padding:30px;display:grid;gap:14px;align-content:start;background:var(--ice)}
+.plans .pl.hot{background:var(--blue);color:#fff}
+.plans h3{font-size:26px}.plans .pr{font:800 34px/1 var(--display)}.plans .pr small{display:block;font:500 11px/1 var(--mono);opacity:.7;margin-top:8px;text-transform:uppercase;letter-spacing:.06em}
+.plans ul{margin:0;padding-left:18px;display:grid;gap:6px;opacity:.85}
+.plans .fine{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+.masc{border-radius:36px;display:grid;gap:28px;padding:clamp(28px,5vw,56px);align-items:center;background:var(--ice);overflow:hidden}
+@media (min-width:900px){.masc{grid-template-columns:1fr 1fr}}
+.masc h2{font-size:clamp(32px,4.4vw,64px);line-height:.95}
+.masc p{font-size:18px;color:var(--ink-2);margin:16px 0 24px;max-width:32ch}
+.masc .im{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:4/3}.masc .im img{width:100%;height:100%;object-fit:cover}
+.masc .soon{display:inline-block;background:var(--blue);color:#fff;font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;border-radius:99px;margin-bottom:16px}
+
+/* ---- Demo match (no public portfolio) ---- */
+.cities{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 18px}
+.city{font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;border-radius:99px;border:1.5px solid var(--line);color:var(--ink-2)}
+.city.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.city.on::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#7CFFB2;margin-right:8px;vertical-align:1px}
+
+.col .hd p{max-width:44ch;color:var(--ink-2);font-size:17px}
+.demo{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:14px;align-items:stretch}
+@media (max-width:1000px){.demo{grid-template-columns:1fr}}
+.steps3{list-style:none;margin:0;padding:24px;border-radius:28px;background:var(--ice);display:grid;gap:18px;counter-reset:s}
+.steps3 li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:4px 12px}
+.steps3 li::before{content:counter(s);grid-row:span 2;width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:700 16px/1 var(--display)}
+.steps3 b{font:700 18px/1.1 var(--display)}
+.steps3 span{color:var(--ink-2);font-size:15px}
+.match{border-radius:28px;background:var(--blue);color:#fff;padding:24px;display:flex;flex-direction:column;gap:16px}
+.mrow{display:grid;grid-template-columns:110px 1fr;gap:16px;align-items:center}
+.msw{aspect-ratio:4/5;border-radius:18px}
+.match b{font:700 22px/1.05 var(--display)}
+.match small{display:block;opacity:.85;margin-top:6px;font-size:14px}
+.score{height:8px;border-radius:99px;background:rgba(255,255,255,.25);margin-top:12px;overflow:hidden}
+.score i{display:block;height:100%;background:#fff;border-radius:99px}
+.why{font-size:15px;opacity:.95}
+.lock{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.req{border-radius:28px;border:2px solid var(--line);padding:24px;display:flex;flex-direction:column;gap:8px}
+.req b{font:700 22px/1.05 var(--display);margin-bottom:6px}
+.req label{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);margin-top:6px}
+.req input,.req select{font:inherit;padding:13px 14px;border-radius:14px;border:1.5px solid var(--line);background:#fff;color:var(--ink)}
+.req .pill{margin-top:12px}
+.req .ok{color:var(--blue);font-weight:600}
+.proof{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.proof span{padding:12px 16px;border-radius:99px;background:var(--ice);font-size:14px;color:var(--ink-2)}
+.proof b{color:var(--ink)}
+.m-textile{background:repeating-linear-gradient(90deg,#B98B5E 0 6px,#8E5F3B 6px 9px,#D9B48A 9px 14px),#B98B5E}
+.m-clay{background:radial-gradient(circle at 30% 30%,#E8DCCB,#B9A58C 55%,#7E6A55)}
+.m-flower{background:radial-gradient(circle at 60% 40%,#F3B6C8 0 18%,transparent 19%),radial-gradient(circle at 35% 65%,#E7E1F7 0 22%,transparent 23%),linear-gradient(160deg,#3B4A2F,#1E2618)}
+.m-ceramic{background:radial-gradient(ellipse at 50% 65%,#F5F2EC 0 32%,transparent 33%),linear-gradient(180deg,#2E3B4E,#1A2230)}
+.m-collage{background:conic-gradient(from 30deg at 40% 55%,#C9A227,#B33A2B,#1F3A5F,#E8DDC4,#C9A227)}
+.m-relief{background:repeating-radial-gradient(circle at 50% 120%,#EDE7DD 0 10px,#D8CFC1 10px 12px)}
+.m-pop1{background:linear-gradient(135deg,#FF6FB5,#FFD84D 55%,#4DD2FF)}
+.m-pop2{background:radial-gradient(circle at 50% 45%,#2433E6 0 30%,#0E0F1A 31%)}
+.m-pop3{background:linear-gradient(160deg,#FFB3A7,#FFE7A0 50%,#9BE3C8)}
+.m-pop4{background:linear-gradient(200deg,#5B2A86,#E05AA0 50%,#F8C16C)}
+.m-pop5{background:repeating-linear-gradient(45deg,#FF8A3D 0 18px,#FFF1E0 18px 36px)}
+.m-pop6{background:radial-gradient(circle at 50% 50%,#fff 0 12%,transparent 13%),linear-gradient(135deg,#111,#3a3a3a)}
+.m-soon{background:linear-gradient(135deg,#C8CCE0,#9EA3C2)}
+
+/* ---- Results: problem / solution / numbers ---- */
+.psr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.psr{grid-template-columns:1fr}}
+.psr>div{border-radius:28px;padding:28px;display:grid;gap:12px;align-content:start;background:var(--ice)}
+.psr>div.on{background:var(--blue);color:#fff}
+.psr .tag{opacity:.75}
+.psr h3{font-size:clamp(22px,2vw,28px);line-height:1.05}
+.psr ul{margin:0;padding-left:18px;display:grid;gap:8px;font-size:16px}
+.psr>div:not(.on) ul{color:var(--ink-2)}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+@media (max-width:1000px){.nums{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.nums{grid-template-columns:1fr}}
+.num{border:2px solid var(--line);border-radius:28px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.num b{font:800 clamp(40px,4.4vw,64px)/.9 var(--display);color:var(--blue);letter-spacing:-.04em}
+.num p{font-size:15px;color:var(--ink)}
+.num a,.num em{margin-top:auto;font:500 11px/1.3 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);font-style:normal}
+.num em{color:var(--blue)}
+.by{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+@media (max-width:900px){.by{grid-template-columns:1fr}}
+.by>div{border-radius:28px;padding:24px;background:var(--ice);display:grid;gap:8px;align-content:start}
+.by h3{font-size:22px}
+.by p{color:var(--ink-2);font-size:15px}
+.by p b{color:var(--ink)}
+.rfoot{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;margin-top:22px}
+.rfoot small{color:var(--ink-2);font-size:13px;max-width:70ch}
+</style>
+</head><body>
+<div class="proto">Pilot · AI matches, checked by a curator · room visuals are concept renders</div>
+<header class="hdr"><div class="wrap"><a class="wm" href="index.html"><i aria-hidden="true"></i>ART PROVE</a>
+<nav aria-label="Main"><a class="l" href="#results">Results</a><a class="l" href="play.html">Style</a><a class="l" href="#pricing">Pricing</a><a class="l" href="#demo">Demo</a><a class="l" href="#mascot">Mascot</a><a class="l" href="#spaces">Spaces</a><a class="l" href="/catalog/#artists">Artists</a><a class="pill p-white p-sm" href="brief.html">Start <span class="ar">→</span></a></nav></div></header>
+<main>
+<section class="hero blue" aria-labelledby="h1">
+  <img class="bg" src="img/play-blue-room.jpg" alt="Concept render: an ultramarine room with a giant white ovoid sculpture, a silver sphere and a small black sphere">
+  <div class="fade"></div><span class="concept">Concept render</span>
+  <span class="bub b1"><i></i>AI matchmaker</span><span class="bub b2"><i></i>6 × 3 m wall</span><span class="bub b3"><i></i>Calm · Natural</span>
+  <div class="wrap">
+    <span class="eyebrow"><i aria-hidden="true"></i>Your curated AI art matchmaker</span>
+    <h1 id="h1">Art for your space.</h1>
+    <p class="sub">Tell us about the space. AI matches artists in minutes. A curator checks every match.</p>
+    <div class="ctas"><a class="pill p-white p-xl" href="brief.html">Get matched <span class="ar">→</span></a><a class="pill p-line p-xl" href="play.html">Find your style</a></div>
+  </div>
+</section>
+
+
+<section class="sec" id="results" aria-labelledby="res-h"><div class="wrap">
+  <div class="hd"><h2 id="res-h">Art that works for your business.</h2></div>
+  <div class="psr">
+    <div><span class="tag">The problem</span><h3>Finding the right art is slow, costly and random.</h3>
+      <ul><li>Weeks of searching studios, galleries and Instagram.</li><li>Consultants take 10–25% of the whole art budget.</li><li>Choice depends on who your designer knows. Or it ends up as stock prints that look the same everywhere.</li><li>You only see if it fits your brand after it's on the wall.</li></ul></div>
+    <div class="on"><span class="tag">What we do</span><h3>A curated AI matchmaker for business spaces.</h3>
+      <ul><li>A curator selects a small circle of strong contemporary artists.</li><li>AI matches one of them to your brand, space and budget.</li><li>You see the work in your space before you order.</li><li>Want something new? Sketch the idea with AI, and the artist makes it for you.</li><li>A curator stays with you until it's installed.</li></ul></div>
+    <div><span class="tag">What you get</span><h3>Original art that sets you apart. Faster and for less.</h3>
+      <ul><li>Your artist match instantly, with the work shown in your space.</li><li>Art made for you: a custom piece, created with AI and a real artist.</li><li>Free matching. No consultant fee on top of your budget.</li><li>Direct commission from the artist, with a clear quote and timeline.</li><li>A story guests, staff and press talk about.</li></ul></div>
+  </div>
+  <div class="nums">
+    <div class="num"><b>+32%</b><p>more productive teams in offices with art they helped choose. +17% with art alone.</p><a href="research.html#offices">University of Exeter</a></div>
+    <div class="num"><b>69%</b><p>of travellers say visuals matter when they choose a hotel.</p><a href="research.html#hotels">Harris Interactive</a></div>
+    <div class="num"><b>$0</b><p>to get matched. Consultants charge 10–25% of your art budget.</p><a href="research.html#market">ARTSRVE · advisor fees</a></div>
+    <div class="num"><b>Instant</b><p>AI match from your brief, instead of weeks of searching.</p><em>Checked by a curator</em></div>
+  </div>
+  <div class="by">
+    <div><h3>Hotels</h3><p><b>Stand out and feel local.</b> Andaz One Bangkok, Park Hyatt Bangkok and Palace Hotel Tokyo use art to set themselves apart and give guests a reason to post. At Sofitel Bangkok Sukhumvit, guests buy the works.</p></div>
+    <div><h3>Offices &amp; developers</h3><p><b>Better spaces to work and live in.</b> Art lifts productivity by 17–32% and 69% of people say art at work improves their wellbeing.</p></div>
+    <div><h3>Retail &amp; brands</h3><p><b>Products feel more premium.</b> The art infusion effect: art next to a product makes it look more luxurious (4.81 vs 4.26 in a controlled study).</p></div>
+  </div>
+  <div class="rfoot"><small>Research figures link to their published sources. We also measure results in each pilot.</small><a class="pill p-blue" href="research.html">All the research <span class="ar">→</span></a></div>
+</div></section>
+
+<section class="sec" id="spaces" aria-labelledby="sp-h"><div class="wrap">
+  <div class="hd"><h2 id="sp-h">Pick a space.</h2></div>
+  <div class="spaces">
+    <a class="sp" href="brief.html#hotel"><img src="img/room-lobby.jpg" alt="Concept render: hotel lobby"><span class="go" aria-hidden="true">→</span><b>Hotel</b></a>
+    <a class="sp" href="brief.html#office"><img src="img/room-office.jpg" alt="Concept render: office"><span class="go" aria-hidden="true">→</span><b>Office</b></a>
+    <a class="sp" href="brief.html#residence"><img src="img/room-residence.jpg" alt="Concept render: residence lobby"><span class="go" aria-hidden="true">→</span><b>Residence</b></a>
+    <a class="sp" href="brief.html#brand"><img src="img/room-brand.jpg" alt="Concept render: brand space" style="object-position:30% 50%"><span class="go" aria-hidden="true">→</span><b>Brand</b></a>
+    <a class="sp" href="brief.html#public"><img src="img/room-plaza.jpg" alt="Concept render: public plaza"><span class="go" aria-hidden="true">→</span><b>Public</b></a>
+  </div>
+</div></section>
+
+<section class="sec col" id="demo" aria-labelledby="col-h"><div class="wrap">
+  <div class="hd">
+    <h2 id="col-h">One artist. Matched instantly.</h2>
+    <p>No catalogue to scroll. Tell us about your space and our AI picks the artist from a private, curated circle. Not right? A curator calls you.</p>
+  </div>
+  <div class="cities" aria-label="Cities">
+    <span class="city on">Bangkok · live</span><span class="city">Singapore · coming soon</span><span class="city">Tokyo · coming soon</span><span class="city">Seoul · coming soon</span><span class="city">Hong Kong · coming soon</span><span class="city">Kuala Lumpur · coming soon</span><span class="city">Worldwide · 2027</span>
+  </div>
+  <div class="demo">
+    <ol class="steps3">
+      <li><b>Your space</b><span>Lobby, restaurant, suites, facade, store or campaign. Add your brandbook if you have one.</span></li>
+      <li><b>AI match</b><span>We match brand, space and budget against a curated circle of artists across Asia.</span></li>
+      <li><b>Made for you</b><span>Want something new? Sketch the idea with AI, and the artist creates it for your space.</span></li>
+      <li><b>Curator</b><span>Don't love the match? Our curator contacts you personally and finds the right art.</span></li>
+    </ol>
+    <div class="match" aria-label="Example match">
+      <span class="tag">Example match</span>
+      <div class="mrow">
+        <div class="msw m-clay"></div>
+        <div>
+          <b>Artist BKK-07</b>
+          <small>Ceramic sculpture · Bangkok · Material &amp; Form</small>
+          <div class="score"><i style="width:92%"></i></div>
+          <small class="sc">92% fit for: hotel lobby, warm minimal brand</small>
+        </div>
+      </div>
+      <p class="why">Why this artist: works in local clay at architectural scale, has delivered a lobby commission for a five-star Bangkok hotel, fits a calm, natural palette.</p>
+      <p class="lock">Name and portfolio are shared in your demo.</p>
+    </div>
+    <form class="req" id="req" novalidate>
+      <b>Request a demo</b>
+      <label for="r-space">Space</label>
+      <select id="r-space"><option>Hotel lobby</option><option>Restaurant or bar</option><option>Suites and corridors</option><option>Residential or office</option><option>Retail or brand campaign</option></select>
+      <label for="r-city">City</label>
+      <input id="r-city" value="Bangkok">
+      <label for="r-mail">Work email</label>
+      <input id="r-mail" type="email" placeholder="you@company.com" required>
+      <button class="pill p-blue" type="submit">Get my match <span class="ar">→</span></button>
+      <p class="ok" id="r-ok" hidden>Your match is ready. We've sent it to your inbox.</p>
+    </form>
+  </div>
+  <div class="proof"><span><b>Curated</b> circle, by invitation</span><span>Artists who have worked with <b>five-star hotels, Michelin restaurants and global fashion brands</b></span></div>
+</div></section>
+<section class="wrap" id="mascot" style="margin-top:0;margin-bottom:clamp(72px,9vw,128px)" aria-labelledby="m-h">
+  <div class="masc">
+    <div><span class="soon">Coming soon</span><h2 id="m-h">Your art mascot, made with an artist.</h2><p>A character for your brand, hotel or app. Designed by a real artist, ready for walls, merch and screens.</p><a class="pill p-blue p-xl" href="#" data-soon>Join the waitlist <span class="ar">→</span></a></div>
+    <div class="im"><img src="img/play-white-room.jpg" alt="Concept render: a blue sculptural character in a white room" loading="lazy"><span class="concept">Concept render</span></div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0" aria-labelledby="how-h"><div class="wrap">
+  <div class="hd"><h2 id="how-h">Three steps.</h2></div>
+  <ol class="steps">
+    <li><span class="n">1</span><h3>Tell</h3><p>Your space, in a few taps.</p></li>
+    <li><span class="n">2</span><h3>Match</h3><p>The AI matchmaker pairs your space with artists. A curator checks.</p></li>
+    <li><span class="n">3</span><h3>Unlock</h3><p>Artists, budget and next steps.</p></li>
+  </ol>
+</div></section>
+
+<section class="sec dt" style="padding-top:0" aria-labelledby="get-h"><div class="wrap">
+  <div class="hd"><h2 id="get-h">Your match.</h2><a class="pill p-blue" href="brief.html">Get matched <span class="ar">→</span></a></div>
+  <div class="prev">
+    <div class="v"><img src="img/room-lobby.jpg" alt="Concept render of a proposal in a hotel lobby"><span class="concept">Concept render</span></div>
+    <div class="r">
+      <div class="card"><span class="tag" style="color:var(--blue)">Free</span><h3>Visual in your space, 3 options</h3><div class="g"><img src="img/art-field-ochre.jpg" alt=""><img src="img/art-weave-earth.jpg" alt=""><img src="img/art-horizon-sea.jpg" alt=""></div></div>
+      <div class="card"><span class="tag" style="color:var(--blue)">Unlocked</span><h3>Artist matches, with reasons</h3><div class="nm"><span>Artist name</span><span>Artist name</span><span>Artist name</span><span>+ more</span></div></div>
+      <div class="card"><span class="tag" style="color:var(--blue)">Unlocked</span><h3>Budget and timeline</h3><p class="bl">$00,000 · 00 weeks</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec dt" id="pricing" style="padding-top:0" aria-labelledby="pr-h"><div class="wrap">
+  <div class="hd"><h2 id="pr-h">Pay when you see value.</h2></div>
+  <div class="plans">
+    <div class="pl"><h3>Match</h3><div class="pr">Free<small>instant · no card</small></div><ul><li>Instant AI artist match</li><li>The work shown in your space</li><li>Checked by a curator</li></ul><a class="pill p-line" href="#demo" style="color:var(--blue)">Get my match</a></div>
+    <div class="pl"><h3>Studio</h3><div class="pr">$149<small>per month · 30 days free · for designers</small></div><ul><li>Unlimited matches and visuals</li><li>Client presentations with your logo</li><li>Custom art designed with AI and the artist</li><li>10% trade fee on every sale to your clients</li></ul><a class="pill p-blue" href="#demo">Try 30 days free</a></div>
+    <div class="pl hot"><h3>Business</h3><div class="pr">$490<small>per month · 30 days free · hotels, F&amp;B, developers</small></div><ul><li>Up to 10 locations</li><li>A dedicated curator</li><li>Lower project fee: 10%</li><li>Art rental and rotation</li></ul><a class="pill p-white" href="#demo">Try 30 days free</a></div>
+    <p class="fine">On every plan you pay the artist's price for the art, with nothing added for finding it. Large and public projects include a project fee. Prices are launch proposals.</p>
+  </div>
+</div></section>
+
+<section class="wrap" aria-labelledby="g-h">
+  <div class="game blue">
+    <div><h2 id="g-h">Find the style for your space.</h2><p>Swipe 8 works on your wall. Share the result with your team.</p><a class="pill p-white p-xl" href="play.html">Try it <span class="ar">→</span></a></div>
+    <div class="stack" aria-hidden="true"><div class="c"><img src="img/art-orbs-terracotta.jpg" alt=""></div><div class="c"><img src="img/art-gesture-ultramarine.jpg" alt=""></div><div class="c"><img src="img/art-field-blue.jpg" alt=""></div><span class="heart">✓</span></div>
+  </div>
+</section>
+
+
+
+<section class="sec" aria-label="Artworks"><div class="marq"><div class="row" id="marq"></div></div></section>
+
+<section class="final blue" aria-labelledby="f-h"><div class="wrap">
+  <h2 id="f-h">Get matched.</h2>
+  <a class="pill p-white p-xl" href="brief.html">Start your brief <span class="ar">→</span></a>
+  <div class="join"><a class="pill p-line p-sm" href="#" data-soon>For artists</a><a class="pill p-line p-sm" href="#" data-soon>For galleries</a><a class="pill p-line p-sm" href="#" data-soon>For collectors</a></div>
+</div></section>
+</main>
+<footer class="ftr"><div class="wrap"><span>© 2026 ART PROVE</span><a href="play.html">Play</a><a href="brief.html">Brief</a><a href="research.html">Research</a><a href="/catalog/#artists">Artists</a><span class="fn">Room visuals are concept renders. Works shown in matches are by real artists.</span></div></footer>
+<script src="ap-data.js"></script>
+<script src="assets/runtime.js"></script>
+<script src="assets/match.js"></script>
+<script src="play.js"></script>
+<script>
+const A=['art-field-ochre','art-gesture-ultramarine','art-ink-mountains','art-orbs-terracotta','art-relief-plaster','art-horizon-sea','art-collage-paper','art-weave-earth','art-field-blue','art-topo-dark','art-blur-dusk','art-orbs-night'];
+const R=APD.works.filter(w=>!APD.artists[w.aid].net).slice(0,14);document.getElementById('marq').innerHTML=[...R,...R].map((w,i)=>'<img src="img/'+w.img+'.jpg" alt="'+(i<R.length?w.title+', '+w.by:'')+'" loading="lazy">').join('');
+</script>
+
+<script>
+document.getElementById('req').addEventListener('submit',async e=>{e.preventDefault();const m=document.getElementById('r-mail'),ok=document.getElementById('r-ok');
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m.value.trim())||APM.isFree(m.value)){ok.hidden=false;ok.style.color='#C62828';ok.textContent='Use your work email, not a personal one.';m.focus();return}
+const b=e.submitter;b.disabled=true;try{await APM.lead({space:document.getElementById('r-space').value,city:document.getElementById('r-city').value.trim(),email:m.value.trim()});ok.style.color='';ok.textContent='Thank you. A curator will send your match within 48 hours.'}catch(_){ok.style.color='#C62828';ok.textContent='Could not send. Try again in a minute.'}ok.hidden=false;b.disabled=false});
+</script>
+</body></html>

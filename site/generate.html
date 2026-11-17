@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your matches · ART PROVE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:var(--ice)}
+/* loading */
+.load{min-height:calc(100vh - 100px);display:grid;place-items:center;text-align:center;padding:40px var(--gr) 40px var(--gl)}
+.load .orb{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 8%,#8f99ff 30%,var(--blue) 62%,var(--blue-deep));margin:0 auto 28px;animation:breathe 1.4s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.12)}}
+.load h1{font-size:clamp(30px,5vw,52px);color:var(--blue)}
+.load ul{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:8px;color:var(--ink-2);font-weight:500}
+.load li{opacity:.3;transition:opacity .3s}.load li.on{opacity:1}
+.load li.on::before{content:"✓ ";color:var(--blue)}
+/* studio */
+.studio{display:grid;gap:16px;padding:20px var(--gr) 120px var(--gl);max-width:1480px;margin:0 auto}
+@media (min-width:1080px){.studio{grid-template-columns:280px minmax(0,1fr) 340px;align-items:start;padding-bottom:48px}.side{position:sticky;top:84px}}
+.pan{background:#fff;border-radius:24px;padding:20px;display:grid;gap:14px;align-content:start}
+.pan h2{font-size:18px;letter-spacing:-.02em}
+.pan .tag{color:var(--ink-2)}
+.kv{display:grid;gap:10px}
+.kv div{display:flex;justify-content:space-between;gap:10px;font-size:15px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.kv span{color:var(--ink-2)}.kv b{font-weight:600;text-align:right}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips span{background:var(--blue);color:#fff;font:600 13px/1 var(--ui);padding:8px 11px;border-radius:99px}
+.cred{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink-2)}
+.cred b{color:var(--blue);font:700 15px/1 var(--display)}
+.left-only{display:none}
+@media (min-width:1080px){.left-only{display:grid}}
+/* canvas */
+.ttl{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}
+.ttl h1{font-size:clamp(30px,3.6vw,52px);line-height:.95}
+.ttl h1 em{font-style:normal;color:var(--blue)}
+.vis{position:relative;border-radius:28px;overflow:hidden;aspect-ratio:16/10;background:#ccd}
+.vis img{width:100%;height:100%;object-fit:cover;animation:pop .5s var(--ease) both}
+.vis .wk{position:absolute;left:50%;top:44%;width:26%;aspect-ratio:4/5;object-fit:cover;transform:translate(-50%,-50%);border:6px solid #fff;box-shadow:0 22px 40px -16px rgba(0,0,0,.6);z-index:2;animation:none}
+.dir .wt{font:500 12px/1.3 var(--mono);color:var(--ink-2);letter-spacing:.02em}
+.whyp{background:#fff;border-radius:22px;padding:18px 20px;display:grid;gap:8px}.whyp ul{margin:0;padding-left:18px;display:grid;gap:4px;color:var(--ink-2);font-size:15px}
+.uf{display:grid;gap:10px}.uf label{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}.uf input{font:inherit;padding:13px 14px;border-radius:14px;border:1.5px solid var(--line)}.uf .err{color:#C62828;font-size:14px}
+.vis .badge{position:absolute;left:14px;top:14px;background:#fff;color:var(--blue);font:600 13px/1 var(--ui);padding:9px 12px;border-radius:99px;z-index:3}
+.vars{display:flex;gap:10px}
+.vars button{flex:1;border:3px solid transparent;border-radius:16px;overflow:hidden;padding:0;background:#fff;aspect-ratio:16/10;position:relative}
+.vars button[aria-pressed=true]{border-color:var(--blue)}
+.vars img{width:100%;height:100%;object-fit:cover}
+.vars b{position:absolute;left:6px;bottom:6px;background:#fff;color:var(--ink);font:700 12px/1 var(--display);padding:5px 8px;border-radius:99px}
+.dirs{display:grid;gap:12px}
+@media (min-width:700px){.dirs{grid-template-columns:repeat(3,1fr)}}
+.dir{background:#fff;border-radius:22px;overflow:hidden;display:grid}
+.dir img{aspect-ratio:4/3;width:100%;object-fit:cover}
+.dir div{padding:14px 16px 18px;display:grid;gap:6px}
+.dir h3{font-size:17px;line-height:1.1}
+.dir p{font-size:14px;color:var(--ink-2)}
+@media (max-width:699px){.dir{grid-template-columns:104px 1fr}.dir img{aspect-ratio:auto;height:100%}.dir div{padding:12px 14px}}
+/* locked */
+.art{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ac{position:relative;border-radius:16px;overflow:hidden;background:var(--ice)}
+.ac img{aspect-ratio:1;width:100%;object-fit:cover}
+.ac .nm{padding:8px 10px;display:grid;gap:2px;font-size:13px}
+.ac .nm b{filter:blur(5px);user-select:none}
+.ac .nm span{color:var(--ink-2)}
+.ac .lk{position:absolute;right:8px;top:8px;width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:13px}
+.blur{filter:blur(6px);user-select:none}
+.more{font-size:14px;color:var(--ink-2);text-align:center}
+.unlock{background:var(--blue);color:#fff;border-radius:24px;padding:20px;display:grid;gap:12px}
+.unlock h2{font-size:22px;line-height:1}
+.unlock ul{margin:0;padding-left:18px;font-size:14px;opacity:.9;display:grid;gap:4px}
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px var(--gr) calc(12px + env(safe-area-inset-bottom,0px)) var(--gl);background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;gap:10px}
+.mbar .pill{flex:1}
+@media (min-width:1080px){.mbar{display:none}}
+/* sheet */
+.sheet{position:fixed;inset:0;z-index:80;background:rgba(14,15,26,.5);display:grid;align-items:end;justify-items:center}
+@media (min-width:760px){.sheet{align-items:center}}
+.sheet .in{background:#fff;width:min(760px,100%);border-radius:28px 28px 0 0;padding:26px var(--gr) calc(26px + env(safe-area-inset-bottom,0px)) var(--gl);display:grid;gap:18px;animation:pop .35s var(--ease) both;max-height:92vh;overflow:auto}
+@media (min-width:760px){.sheet .in{border-radius:28px;padding:32px}}
+.sheet h2{font-size:clamp(26px,3.4vw,38px);line-height:1}
+.plans{display:grid;gap:12px}
+@media (min-width:640px){.plans{grid-template-columns:1fr 1fr}}
+.plan{border:2px solid var(--line);border-radius:22px;padding:20px;display:grid;gap:12px;align-content:start}
+.plan.hot{border-color:var(--blue);background:var(--ice)}
+.plan h3{font-size:20px}
+.plan .pr{font:800 26px/1 var(--display);color:var(--blue)}
+.plan .pr small{font:500 12px/1 var(--mono);color:var(--ink-2);display:block;margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+.plan ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2);display:grid;gap:4px}
+.x{justify-self:end;background:var(--ice);border:0;width:44px;height:44px;border-radius:50%;font-size:18px}
+.fine{font-size:12px;color:var(--ink-2)}
+</style>
+</head><body>
+<div class="proto">Pilot · AI matches, checked by a curator · room visuals are concept renders</div>
+<header class="hdr"><div class="wrap"><a class="wm" href="index.html"><i aria-hidden="true"></i>ART PROVE</a>
+<nav aria-label="Main"><a class="l" href="play.html">Style</a><a class="l" href="brief.html#new">New brief</a><button class="pill p-white p-sm" type="button" data-unlock>Unlock</button></nav></div></header>
+<main>
+<section class="load" id="load" aria-live="polite"><div>
+  <div class="orb" aria-hidden="true"></div>
+  <span class="tag" style="color:var(--ink-2);display:block;margin-bottom:10px">Curated AI art matchmaker</span><h1>Finding your matches</h1>
+  <ul id="steps"><li>Reading your brief</li><li>Matching artists from the pool</li><li>Placing works in your space</li></ul>
+</div></section>
+
+<div class="studio" id="studio" hidden>
+  <!-- left: brief -->
+  <aside class="side left-only"><div class="pan">
+    <span class="tag">Your brief</span>
+    <div class="kv" id="kv"></div>
+    <div class="chips" id="chips"></div>
+    <a class="pill p-line p-sm" href="brief.html#new" style="color:var(--blue)">Edit brief</a>
+    <div class="cred"><span>Free generations left</span><b id="cred">1</b></div>
+    <button class="pill p-blue" type="button" id="regen">Regenerate ✦</button>
+  </div></aside>
+
+  <!-- center: proposal -->
+  <section style="display:grid;gap:16px;min-width:0" aria-labelledby="ph">
+    <div class="ttl"><h1 id="ph">Matched for your <em id="sp">hotel</em></h1><span class="tag" style="color:var(--ink-2)">AI matchmaker · every match checked by a curator</span></div>
+    <div class="vis"><img id="hero" src="img/room-lobby.jpg" alt="Concept visual of the proposal in your space"><span class="badge" id="vlab">Option A</span><span class="concept">Concept render</span></div>
+    <div class="vars" id="vars" role="group" aria-label="Options"></div>
+    <div class="whyp"><span class="tag" id="msrc" style="color:var(--blue)"></span><ul id="why"></ul></div>
+    <div class="dirs" id="dirs"></div>
+  </section>
+
+  <!-- right: artists + budget, locked -->
+  <aside class="side" style="display:grid;gap:16px">
+    <div class="pan">
+      <div class="ttl" style="align-items:center"><h2>Your artist matches</h2><span class="tag">Locked</span></div>
+      <div class="art" id="art"></div>
+      <p class="more">+ more matches from the artist pool</p>
+    </div>
+    <div class="pan">
+      <h2>Budget and timeline</h2>
+      <div class="kv" id="bud"><div><span>Artworks</span><b class="blur">$ 00,000</b></div><div><span>Commission</span><b class="blur">$ 00,000</b></div><div><span>Install</span><b class="blur">$ 0,000</b></div><div><span>Timeline</span><b class="blur">00 weeks</b></div></div>
+    </div>
+    <div class="unlock" id="unl">
+      <h2>Meet your matches</h2>
+      <ul><li>Artist names, portfolios and why they fit</li><li>Budget and timeline</li><li>More generations and options</li><li>Send requests to artists</li></ul>
+      <button class="pill p-white" type="button" data-unlock>Unlock <span class="ar">→</span></button>
+    </div>
+  </aside>
+</div>
+</main>
+<div class="mbar" id="mbar" hidden><button class="pill p-line" type="button" id="regen2" style="color:var(--blue)">Regenerate ✦</button><button class="pill p-blue" type="button" data-unlock>Unlock <span class="ar">→</span></button></div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sh"><div class="in">
+  <button class="x" type="button" id="x" aria-label="Close">✕</button>
+  <h2 id="sh">Unlock your proposal</h2>
+  <div class="plans" id="plans">
+    <div class="plan"><h3>One space</h3><div class="pr">Price TBD<small>one-time · placeholder</small></div><ul><li>This proposal in full</li><li>Artist names and portfolios</li><li>Budget and timeline</li><li>5 more generations</li></ul><button class="pill p-line" type="button" data-pay="One space" style="color:var(--blue)">Choose</button></div>
+    <div class="plan hot"><h3>Business</h3><div class="pr">Price TBD<small>per month · placeholder</small></div><ul><li>Many spaces and locations</li><li>Unlimited generations</li><li>Full artist pool and requests</li><li>Team sharing and a curator</li></ul><button class="pill p-blue" type="button" data-pay="Business">Choose</button></div>
+  </div>
+  <form class="uf" id="uf" hidden novalidate><h3 style="font-size:20px">Open your proposal</h3><p class="fine" style="font-size:14px">During the pilot, unlocking is free. Leave your work email and a curator follows up with prices and availability.</p><label for="u-mail">Work email</label><input id="u-mail" type="email" autocomplete="email" placeholder="you@company.com" required><label for="u-name">Your name</label><input id="u-name" autocomplete="name"><label for="u-co">Company or property</label><input id="u-co" autocomplete="organization" required><p class="err" id="u-err" hidden></p><button class="pill p-blue p-xl" type="submit">Unlock my proposal</button></form>
+  <p class="fine">Prices and plan contents are launch proposals. Payment is not live yet.</p>
+</div></div>
+
+<script src="ap-data.js"></script>
+<script src="assets/runtime.js"></script>
+<script src="assets/match.js"></script>
+<script src="play.js"></script>
+<script>
+/* generate.html: real matching via APM (assets/match.js). Keeps the prototype's layout. */
+const E=x=>String(x==null?'':x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const qs=new URLSearchParams(location.search);
+let briefId=qs.get('brief')||store.get('ap_brief_id',null);
+const sess=store.get('ap_brief',{}),sty=store.get('ap_style',{});
+const ROOMS={Hotel:['room-lobby','room-suite','play-white-room'],Office:['room-office','room-atrium','play-white-room'],Residence:['room-residence','room-suite','play-white-room'],Brand:['room-brand','play-blue-room','room-suite'],Public:['room-plaza','room-atrium','play-blue-room']};
+let brief=null,M=null,opt=0,credits=1,tried=[],unlocked=!!store.get('ap_unlocked_'+briefId,false);
+const W=APM.WD(),A=APD.artists;
+const space=()=>{const s=(brief&&brief.space)||sess.space;return s&&ROOMS[s]?s:'Hotel'};
+const tagsOf=()=>((brief&&brief.style&&brief.style.tags&&brief.style.tags.length)?brief.style.tags:(sty.tags||[])).slice(0,3);
+
+function visHTML(k){const d=M.directions[k];const w=W[d.workId];const room=ROOMS[space()][k%3];
+  if(w&&w.sp)return {img:'<img src="img/'+w.sp+'.jpg" alt="Exhibition view of work by '+E(w.by)+'">',lab:"Artist's exhibition view"};
+  return {img:'<img src="img/'+room+'.jpg" alt="Concept render of your space"><img class="wk" src="img/'+w.img+'.jpg" alt="'+E(w.title)+', '+E(w.by)+'">',lab:'Real work · concept room'};}
+function draw(){
+  const sp=space(),tags=tagsOf(),a=A[M.artistId];
+  document.getElementById('sp').textContent=sp.toLowerCase();
+  const v=visHTML(opt);const vis=document.querySelector('.vis');
+  vis.innerHTML=v.img+'<span class="badge" id="vlab">Option '+'ABC'[opt]+'</span><span class="concept">'+v.lab+'</span>';
+  document.getElementById('vars').innerHTML=M.directions.map((d,k)=>'<button type="button" aria-pressed="'+(k===opt)+'" data-o="'+k+'"><img src="img/'+W[d.workId].img+'.jpg" alt=""><b>'+'ABC'[k]+'</b></button>').join('');
+  document.getElementById('dirs').innerHTML=M.directions.map((d,k)=>{const w=W[d.workId];return '<article class="dir"><img src="img/'+w.img+'.jpg" alt="'+E(w.title)+'"><div><span class="tag" style="color:var(--blue)">Direction '+(k+1)+'</span><h3>'+E(d.title)+'</h3><p>'+E(d.why||'')+'</p><p class="wt">'+E(w.title)+(w.year?', '+E(w.year):'')+' · '+E(w.medium)+(w.dim?' · '+E(w.dim):'')+'</p></div></article>'}).join('');
+  const ids=[M.artistId,...(M.alternates||[])].slice(0,4);
+  document.getElementById('art').innerHTML=ids.map((id,k)=>{const x=A[id];const w=APD.works.find(w=>w.aid===id);if(!x||!w)return '';
+    return '<div class="ac"><img src="img/'+w.img+'.jpg" alt="Work by a matched artist">'+(unlocked?'':'<span class="lk" aria-hidden="true">🔒</span>')+'<div class="nm"><b class="'+(unlocked?'':'bl')+'">'+(unlocked?E(x.short):'Artist name')+'</b><span>'+(k===0?'Best match':'Also fits')+' · '+E(x.medium)+'</span></div></div>'}).join('');
+  document.querySelectorAll('.ac .nm b.bl').forEach(b=>b.style.filter='blur(5px)');
+  document.getElementById('kv').innerHTML=[['Space',sp],['City',(brief&&brief.city)||sess.city||'—'],['Need',(brief&&brief.objectType)||(sess.need||[]).join(', ')||'—'],['When',(brief&&brief.deadline)||'—'],['Budget',(brief&&brief.budget)||'—']].map(r=>'<div><span>'+r[0]+'</span><b>'+E(r[1])+'</b></div>').join('');
+  document.getElementById('chips').innerHTML=tags.map(t=>'<span>'+E(t)+'</span>').join('');
+  document.getElementById('cred').textContent=credits;
+  const why=document.getElementById('why');why.innerHTML=(M.why||[]).map(x=>'<li>'+E(x)+'</li>').join('');
+  const src=document.getElementById('msrc');src.textContent=M.source==='ai'?'AI match · a curator checks it next':'Quick match from your style · a curator checks it next';
+  const bud=document.getElementById('bud');if(unlocked)bud.innerHTML='<div><span>Artworks</span><b>Price on request</b></div><div><span>Commission</span><b>Quote from the artist</b></div><div><span>Timeline</span><b>Confirmed by the curator</b></div>';
+  const ul=document.getElementById('unl');if(unlocked){ul.innerHTML='<h2>Your proposal is open</h2><ul><li>Artist: '+E(a.name)+'</li><li>A curator contacts you within 48 hours with prices and availability.</li></ul><a class="pill p-white" href="/catalog/?brief='+encodeURIComponent(briefId)+'#business">Open full proposal <span class="ar">→</span></a>'}
+}
+async function run(exclude){
+  const li=[...document.querySelectorAll('#steps li')];li.forEach(l=>l.classList.remove('on'));li[0].classList.add('on');
+  document.getElementById('load').hidden=false;document.getElementById('studio').hidden=true;document.getElementById('mbar').hidden=true;
+  const t1=setTimeout(()=>li[1].classList.add('on'),900);
+  try{
+    if(!briefId){const r=await APM.saveBrief({space:sess.space||'Hotel',need:sess.need||[],city:sess.city||'',when:sess.when||'',budget:sess.budget||''},sty);briefId=r.id;store.set('ap_brief_id',briefId);history.replaceState(null,'','?brief='+briefId)}
+    brief=brief||await APM.loadBrief(briefId)||{space:sess.space,city:sess.city,style:sty};
+    if(!exclude&&brief.match&&brief.match.directions){M=brief.match}else{M=await APM.match(brief,exclude);await APM.saveMatch(briefId,M).catch(()=>{})}
+  }catch(e){console.warn(e);brief=brief||{space:sess.space,city:sess.city,style:sty};M=APM.heuristic(brief,exclude||[])}
+  clearTimeout(t1);li.forEach(l=>l.classList.add('on'));
+  setTimeout(()=>{document.getElementById('load').hidden=true;document.getElementById('studio').hidden=false;document.getElementById('mbar').hidden=false;draw();const h=document.getElementById('ph');h.tabIndex=-1;h.focus({preventScroll:true})},400);
+}
+document.getElementById('vars').addEventListener('click',e=>{const x=e.target.closest('button');if(!x)return;opt=+x.dataset.o;draw()});
+async function regen(){if(credits<=0){openSheet();return}credits--;tried.push(M.artistId);opt=0;await run(tried.slice());toast(credits?'New match generated':'New match generated. That was your free one.')}
+document.getElementById('regen').onclick=regen;document.getElementById('regen2').onclick=regen;
+const sheet=document.getElementById('sheet');let last=null,plan='';
+function openSheet(){if(unlocked){location.href='/catalog/?brief='+encodeURIComponent(briefId)+'#business';return}last=document.activeElement;sheet.hidden=false;document.getElementById('plans').hidden=false;document.getElementById('uf').hidden=true;document.getElementById('x').focus()}
+function closeSheet(){sheet.hidden=true;last&&last.focus()}
+document.addEventListener('click',e=>{if(e.target.closest('[data-unlock]'))openSheet();const p=e.target.closest('[data-pay]');if(p){plan=p.dataset.pay;document.getElementById('plans').hidden=true;document.getElementById('uf').hidden=false;document.getElementById('u-mail').focus()}});
+document.getElementById('x').onclick=closeSheet;sheet.addEventListener('click',e=>{if(e.target===sheet)closeSheet()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sheet.hidden)closeSheet()});
+document.getElementById('uf').addEventListener('submit',async e=>{e.preventDefault();
+  const mail=document.getElementById('u-mail').value.trim(),name=document.getElementById('u-name').value.trim(),co=document.getElementById('u-co').value.trim(),er=document.getElementById('u-err');
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)||APM.isFree(mail)){er.textContent='Use your work email, not a personal one.';er.hidden=false;return}
+  if(co.length<2){er.textContent='Add your company or property name.';er.hidden=false;return}
+  er.hidden=true;const btn=e.submitter||document.querySelector('#uf button[type=submit]');btn.disabled=true;btn.textContent='Opening…';
+  try{await APM.unlock(briefId,{email:mail,name,company:co,plan});unlocked=true;credits=Math.max(credits,5);store.set('ap_unlocked_'+briefId,true);closeSheet();draw();toast('Unlocked. A curator will contact you.')}
+  catch(err){er.textContent='Could not save. Try again in a minute.';er.hidden=false}
+  btn.disabled=false;btn.textContent='Unlock my proposal';});
+run();
+</script>
+</body></html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Start your brief · ART PROVE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="play.css">
+<style>
+.bar{height:8px;background:var(--blue-soft)}
+.bar i{display:block;height:100%;width:33%;background:var(--blue);border-radius:0 8px 8px 0;transition:width .4s var(--ease)}
+.bb{max-width:920px;margin:0 auto;padding:36px var(--gr) 120px var(--gl)}
+.lv{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.lv .tag{color:var(--blue)}
+.back{background:none;border:0;font-weight:600;color:var(--ink-2);min-height:44px;padding:0 4px}
+.back:hover{color:var(--blue)}
+.q{font-size:clamp(38px,6vw,76px);line-height:.95;margin-bottom:30px;animation:pop .45s var(--ease) both}
+.q em{font-style:normal;color:var(--blue)}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(3,1fr);gap:16px}}
+.tile{position:relative;border:3px solid transparent;border-radius:26px;overflow:hidden;background:var(--ice);padding:0;text-align:left;display:grid;transition:transform .2s var(--ease),border-color .15s;animation:pop .45s var(--ease) both}
+.tile:hover{transform:translateY(-4px)}
+.tile[aria-pressed=true]{border-color:var(--blue)}
+.tile .im{aspect-ratio:4/3;overflow:hidden}
+.tile .im img{width:100%;height:100%;object-fit:cover}
+.tile b{font:700 clamp(16px,1.7vw,21px)/1.1 var(--display);padding:14px 16px 16px;letter-spacing:-.02em}
+.tile .ck{position:absolute;right:12px;top:12px;width:32px;height:32px;border-radius:50%;background:#fff;color:transparent;display:grid;place-items:center;font-weight:700}
+.tile[aria-pressed=true] .ck{background:var(--blue);color:#fff}
+.tile.txt{min-height:120px;align-content:end;background:var(--ice)}
+.tile.txt .big{font:800 44px/1 var(--display);color:var(--blue);padding:18px 16px 0}
+.style{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:-10px 0 26px;font-size:14px;color:var(--ink-2)}
+.style span{background:var(--blue);color:#fff;font-weight:600;padding:7px 12px;border-radius:99px}
+.fld{display:grid;gap:10px;margin-bottom:24px}
+.fld label{font-weight:600}
+.opt{font:500 11px/1 var(--mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;margin-left:6px}
+.in{width:100%;min-height:62px;border:2px solid var(--line);border-radius:18px;padding:0 20px;font:500 20px/1 var(--ui);background:#fff;color:var(--ink)}
+.in:focus{outline:none;border-color:var(--blue)}
+.in[aria-invalid=true]{border-color:#C62828}
+.err{color:#C62828;font-size:14px;font-weight:500}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);background:#fff;border-radius:99px;min-height:48px;padding:0 18px;font-weight:600}
+.chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.consent{display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;font-size:15px;color:var(--ink-2)}
+.consent input{width:22px;height:22px;accent-color:var(--blue);margin:1px 0 0}
+.go{position:fixed;left:0;right:0;bottom:0;padding:12px var(--gr) calc(12px + env(safe-area-inset-bottom,0px)) var(--gl);background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:40}
+.go .pill{width:min(560px,100%)}
+.go .pill[disabled]{opacity:.35;transform:none;cursor:not-allowed}
+.done{min-height:calc(100vh - 100px);display:grid;place-items:center;text-align:center;padding:48px var(--gr) 64px var(--gl)}
+.done .in2{display:grid;gap:24px;justify-items:center;max-width:640px;animation:pop .6s var(--ease) both}
+.done h1{font-size:clamp(54px,10vw,140px);line-height:.85}
+.done p{font-size:20px;opacity:.92}
+.done ol{list-style:none;margin:0;padding:0;display:grid;gap:10px;text-align:left;width:100%}
+.done li{background:rgba(255,255,255,.12);border-radius:20px;padding:16px 18px;display:flex;gap:14px;align-items:center;font-size:17px}
+.done li b{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--blue);display:grid;place-items:center;font:800 16px/1 var(--display);flex:none}
+.done .note{font-size:13px;opacity:.8}
+</style>
+</head><body>
+<div class="proto">Pilot · AI matches, checked by a curator · room visuals are concept renders</div>
+<header class="hdr"><div class="wrap"><a class="wm" href="index.html"><i aria-hidden="true"></i>ART PROVE</a>
+<nav aria-label="Main"><a class="l" href="play.html">Play</a><a class="l" href="index.html#spaces">Spaces</a><a class="l" href="/catalog/#artists">Artists</a></nav></div></header>
+<div class="bar" aria-hidden="true"><i id="bar"></i></div>
+<main>
+<form id="f" class="bb" novalidate>
+  <div class="lv"><button class="back" type="button" id="back" hidden>← Back</button><span class="tag" id="lvl">Step 1 of 3</span></div>
+
+  <section data-s="1">
+    <h1 class="q">What's the <em>space?</em></h1>
+    <div class="style" id="style" hidden></div>
+    <div class="tiles" data-k="space" data-auto>
+      <button class="tile" type="button" data-v="Hotel" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-lobby.jpg" alt=""></span><b>Hotel</b></button>
+      <button class="tile" type="button" data-v="Office" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-office.jpg" alt=""></span><b>Office</b></button>
+      <button class="tile" type="button" data-v="Residence" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-residence.jpg" alt=""></span><b>Residence</b></button>
+      <button class="tile" type="button" data-v="Brand" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-brand.jpg" alt="" style="object-position:30% 50%"></span><b>Brand</b></button>
+      <button class="tile" type="button" data-v="Public" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/room-plaza.jpg" alt=""></span><b>Public</b></button>
+      <button class="tile txt" type="button" data-v="Other" aria-pressed="false"><span class="ck">✓</span><span class="big">+</span><b>Other</b></button>
+    </div>
+  </section>
+
+  <section data-s="2" hidden>
+    <h1 class="q">What do you <em>need?</em></h1>
+    <div class="tiles" data-k="need" data-multi>
+      <button class="tile" type="button" data-v="Ready artworks" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/art-field-blue.jpg" alt=""></span><b>Ready artworks</b></button>
+      <button class="tile" type="button" data-v="A commission" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/art-gesture-ultramarine.jpg" alt=""></span><b>A commission</b></button>
+      <button class="tile" type="button" data-v="Sculpture" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/play-white-room.jpg" alt=""></span><b>Sculpture</b></button>
+      <button class="tile" type="button" data-v="Many spaces" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/art-marks-graphite.jpg" alt=""></span><b>Many spaces</b></button>
+      <button class="tile" type="button" data-v="Online collaboration" aria-pressed="false"><span class="ck">✓</span><span class="im"><img src="img/play-blue-room.jpg" alt=""></span><b>Online collab</b></button>
+      <button class="tile txt" type="button" data-v="Not sure" aria-pressed="false" data-x><span class="ck">✓</span><span class="big">?</span><b>Not sure yet</b></button>
+    </div>
+  </section>
+
+  <section data-s="3" hidden>
+    <h1 class="q">Where <em>and when?</em></h1>
+    <p style="color:var(--ink-2);margin:-14px 0 22px">Last step. Then the AI matchmaker gets to work.</p>
+    <div class="fld"><label for="loc">City</label><input class="in" id="loc" autocomplete="address-level2" placeholder="Bangkok, Phuket, Moscow…"><span class="err" id="e-loc" hidden>Add a city so we know where to look.</span></div>
+    <div class="fld"><span style="font-weight:600">When <span class="opt">optional</span></span><div class="chips" data-k="when"><button class="chip" type="button" aria-pressed="false">ASAP</button><button class="chip" type="button" aria-pressed="false">3–6 months</button><button class="chip" type="button" aria-pressed="false">Later</button></div></div>
+    <div class="fld"><span style="font-weight:600">Budget <span class="opt">optional</span></span><div class="chips" data-k="budget"><button class="chip" type="button" aria-pressed="false">Under $25k</button><button class="chip" type="button" aria-pressed="false">$25–100k</button><button class="chip" type="button" aria-pressed="false">$100k+</button><button class="chip" type="button" aria-pressed="false">Not sure</button></div></div>
+  </section>
+
+</form>
+
+</main>
+<div class="go" id="gobar"><button class="pill p-blue p-xl" type="button" id="next">Next <span class="ar">→</span></button></div>
+<script src="ap-data.js"></script>
+<script src="assets/runtime.js"></script>
+<script src="assets/match.js"></script>
+<script src="play.js"></script>
+<script>
+const st={space:'',need:[],when:'',budget:''};let s=1;const N=3;
+const secs=[...document.querySelectorAll('[data-s]')],next=document.getElementById('next');
+const map={hotel:'Hotel',office:'Office',residence:'Residence',brand:'Brand',public:'Public'};
+const h=location.hash.slice(1);if(map[h])st.space=map[h];
+const sty=store.get('ap_style',null);if(sty&&sty.tags){const el=document.getElementById('style');el.hidden=false;el.innerHTML='Your style: '+sty.tags.map(t=>'<span>'+t+'</span>').join('')}
+const prev=store.get('ap_brief',{});if(!st.space&&prev.space&&location.hash!=='#new')st.space=prev.space;
+function paint(){
+  document.querySelectorAll('[data-k=space] .tile').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===st.space));
+  document.querySelectorAll('[data-k=need] .tile').forEach(b=>b.setAttribute('aria-pressed',st.need.includes(b.dataset.v)));
+  const ok=s===1?!!st.space:s===2?st.need.length>0:true;next.disabled=!ok;
+}
+function show(n){s=n;secs.forEach(x=>x.hidden=+x.dataset.s!==n);document.getElementById('bar').style.width=(n/N*100)+'%';
+  document.getElementById('lvl').textContent='Step '+n+' of '+N;document.getElementById('back').hidden=n===1;
+  next.innerHTML=n<N?'Next <span class="ar">→</span>':'Find my matches <span class="ar">✦</span>';paint();window.scrollTo({top:0,behavior:'smooth'});
+  const q=secs[n-1].querySelector('.q');q.tabIndex=-1;q.focus({preventScroll:true});}
+document.querySelector('[data-k=space]').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;st.space=b.dataset.v;paint();setTimeout(()=>show(2),260)});
+document.querySelector('[data-k=need]').addEventListener('click',e=>{const b=e.target.closest('.tile');if(!b)return;const v=b.dataset.v;
+  if(b.hasAttribute('data-x'))st.need=st.need.includes(v)?[]:[v];else{st.need=st.need.filter(x=>x!=='Not sure');st.need=st.need.includes(v)?st.need.filter(x=>x!==v):[...st.need,v]}paint()});
+document.querySelectorAll('.chips').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;const on=b.getAttribute('aria-pressed')!=='true';g.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c===b&&on));st[g.dataset.k]=on?b.textContent:''}));
+function err(id,on){document.getElementById('e-'+id).hidden=!on;const i=document.getElementById(id);if(i&&i.classList.contains('in'))i.setAttribute('aria-invalid',on);return on}
+next.addEventListener('click',()=>{
+  if(s===3){if(err('loc',document.getElementById('loc').value.trim().length<2)){document.getElementById('loc').focus();return}
+    const full={...st,city:document.getElementById('loc').value.trim()};store.set('ap_brief',full);next.disabled=true;next.innerHTML='Saving your brief…';
+    APM.saveBrief(full,store.get('ap_style',null)).then(r=>{store.set('ap_brief_id',r.id);location.href='generate.html?brief='+encodeURIComponent(r.id)}).catch(()=>{store.set('ap_brief_id',null);location.href='generate.html'});return}
+  if(s<N)show(s+1)});
+document.getElementById('back').addEventListener('click',()=>show(s-1));
+document.getElementById('loc').addEventListener('input',()=>err('loc',false));
+document.getElementById('f').addEventListener('submit',e=>e.preventDefault());
+show(st.space?2:1);
+</script>
+</body></html>

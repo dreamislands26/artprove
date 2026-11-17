@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Style for your space · ART PROVE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Geist:wght@400;500;600&family=Geist+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="play.css">
+<style>
+body{background:var(--blue)}
+.game{min-height:calc(100vh - 100px);display:grid;justify-items:center;align-content:start;gap:22px;padding-block:28px 48px;color:#fff}
+.top{width:100%;max-width:440px;display:flex;justify-content:space-between;align-items:center}
+.top h1{font-size:clamp(26px,4vw,36px)}
+.prog{display:flex;gap:5px}
+.prog i{width:22px;height:6px;border-radius:6px;background:rgba(255,255,255,.3)}
+.prog i.on{background:#fff}
+.deck{position:relative;width:min(380px,100%);aspect-ratio:3/4}
+.card{position:absolute;inset:0;border-radius:28px;overflow:hidden;background:#fff;color:var(--ink);box-shadow:0 34px 60px -28px rgba(0,0,0,.55);touch-action:none;user-select:none;will-change:transform;transition:transform .35s var(--ease),opacity .35s}
+.card .room{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(8px) saturate(.6) brightness(.9);transform:scale(1.1);pointer-events:none}
+.card .art{position:absolute;left:50%;top:40%;width:52%;aspect-ratio:4/5;transform:translate(-50%,-50%);object-fit:cover;border:6px solid #fff;box-shadow:0 18px 30px -12px rgba(0,0,0,.6);pointer-events:none}
+.spaces{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.spaces button{border:2px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:99px;min-height:44px;padding:0 16px;font-weight:600}
+.spaces button[aria-pressed=true]{background:#fff;color:var(--blue);border-color:#fff}
+.card .meta{position:absolute;left:0;right:0;bottom:0;padding:18px;display:flex;gap:6px;flex-wrap:wrap;background:linear-gradient(0deg,rgba(14,15,26,.65),transparent)}
+.card .meta span{background:#fff;color:var(--ink);font:600 13px/1 var(--ui);padding:8px 11px;border-radius:99px}
+.card .stamp{position:absolute;top:22px;padding:8px 14px;border-radius:12px;font:800 22px/1 var(--display);border:3px solid;opacity:0;transition:opacity .1s}
+.card .yes{left:20px;color:#fff;background:var(--blue);border-color:#fff;transform:rotate(-10deg)}
+.card .no{right:20px;color:var(--ink);background:#fff;border-color:var(--ink);transform:rotate(10deg)}
+.card.back{transform:scale(.94) translateY(16px);opacity:.9}
+.card .concept{top:12px;bottom:auto;left:auto;right:12px}
+.btns{display:flex;gap:22px;align-items:center}
+.rb{width:76px;height:76px;border-radius:50%;border:0;display:grid;place-items:center;font-size:30px;transition:transform .2s var(--ease)}
+.rb:hover{transform:scale(1.08)}.rb:active{transform:scale(.94)}
+.rb.no{background:rgba(255,255,255,.16);color:#fff}
+.rb.yes{background:#fff;color:var(--blue);width:92px;height:92px;font-size:36px}
+.hint{font-size:14px;opacity:.75}
+.res{width:min(520px,100%);background:#fff;color:var(--ink);border-radius:32px;padding:32px;display:grid;gap:20px;animation:pop .6s var(--ease) both}
+.res h2{font-size:clamp(34px,5vw,52px);line-height:.95;color:var(--blue)}
+.res .tags{display:flex;gap:8px;flex-wrap:wrap}
+.res .tags span{background:var(--blue);color:#fff;font:600 16px/1 var(--ui);padding:12px 16px;border-radius:99px}
+.res .thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.res .thumbs img{width:64px;height:80px;object-fit:cover;border-radius:12px}
+.res .row{display:flex;gap:10px;flex-wrap:wrap}
+.res .row .pill{flex:1 1 auto}
+.res .note{font-size:13px;color:var(--ink-2)}
+</style>
+</head><body class="blue">
+<div class="proto">Pilot · AI matches, checked by a curator · room visuals are concept renders</div>
+<header class="hdr"><div class="wrap"><a class="wm" href="index.html"><i aria-hidden="true"></i>ART PROVE</a>
+<nav aria-label="Main"><a class="l" href="play.html" aria-current="page">Play</a><a class="l" href="index.html#spaces">Spaces</a><a class="l" href="/catalog/#artists">Artists</a><a class="pill p-white p-sm" href="brief.html">Start <span class="ar">→</span></a></nav></div></header>
+<main class="wrap game">
+  <div class="top"><h1>Style for your space</h1><div class="prog" id="prog" aria-label="Progress"></div></div>
+  <div class="spaces" id="spaces" role="group" aria-label="Space"></div>
+  <div class="deck" id="deck" aria-live="polite"></div>
+  <div class="btns" id="btns"><button class="rb no" type="button" id="no" aria-label="Skip">✕</button><button class="rb yes" type="button" id="yes" aria-label="Fits this space">✓</button></div>
+  <p class="hint" id="hint">Fits your space? Swipe right. Not for it? Left.</p>
+  <section class="res" id="res" hidden aria-labelledby="rh">
+    <span class="tag" style="color:var(--ink-2)" id="rlab">Style for your space</span>
+    <h2 id="rh">You like it calm.</h2>
+    <div class="tags" id="rtags"></div>
+    <div class="thumbs" id="rthumbs"></div>
+    <div class="row"><a class="pill p-blue p-xl" href="brief.html" id="tobrief">Find my matches <span class="ar">→</span></a><button class="pill p-line p-xl" type="button" id="share" style="color:var(--blue)">Share with team</button><button class="pill p-line p-sm" type="button" id="again" style="color:var(--blue)">Start over</button></div>
+    <p class="note">The style goes straight into your brief. Swipe images are concept images; your matches use real works.</p>
+  </section>
+</main>
+<footer class="ftr"><div class="wrap"><span>© 2026 ART PROVE</span><a href="index.html">Home</a><a href="brief.html">Brief</a><span class="fn">Room visuals are concept renders. Works shown in matches are by real artists.</span></div></footer>
+<script src="play.js"></script>
+<script>
+const W=[
+ ['art-field-ochre',['Calm','Warm','Large']],['art-gesture-ultramarine',['Bold','Blue','Gestural']],['art-ink-mountains',['Calm','Paper','Nature']],
+ ['art-orbs-terracotta',['Bold','Warm','Graphic']],['art-relief-plaster',['Calm','Tactile','Sculptural']],['art-horizon-sea',['Calm','Blue','Nature']],
+ ['art-collage-paper',['Bold','Graphic','Paper']],['art-weave-earth',['Tactile','Warm','Textile']]];
+const ROOM={Hotel:'room-lobby',Office:'room-office',Residence:'room-residence',Brand:'room-suite',Public:'room-atrium'};
+let space=store.get('ap_brief',{}).space||'Hotel';if(!ROOM[space])space='Hotel';
+const spEl=document.getElementById('spaces');
+function paintSp(){spEl.innerHTML=Object.keys(ROOM).map(k=>'<button type="button" aria-pressed="'+(k===space)+'">'+k+'</button>').join('')}
+spEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;space=b.textContent;paintSp();render()});paintSp();
+const deck=document.getElementById('deck'),prog=document.getElementById('prog');let i=0,liked=[];
+prog.innerHTML=W.map(()=>'<i></i>').join('');
+function cardHTML(k,back){const [img,t]=W[k];return '<div class="card'+(back?' back':'')+'" data-k="'+k+'"><img class="room" src="img/'+ROOM[space]+'.jpg" alt=""><img class="art" src="img/'+img+'.jpg" alt="Concept artwork on the wall, '+t.join(', ')+'"><span class="concept">Concept image</span><span class="stamp yes">FITS</span><span class="stamp no">SKIP</span><div class="meta">'+t.map(x=>'<span>'+x+'</span>').join('')+'</div></div>'}
+function render(){
+  prog.querySelectorAll('i').forEach((el,j)=>el.classList.toggle('on',j<i));
+  if(i>=W.length)return done();
+  deck.innerHTML=(i+1<W.length?cardHTML(i+1,true):'')+cardHTML(i,false);
+  bind(deck.lastElementChild);
+}
+function decide(like){const c=deck.querySelector('.card:not(.back)');if(!c)return;
+  if(like)liked.push(i);
+  c.style.transform='translateX('+(like?140:-140)+'%) rotate('+(like?18:-18)+'deg)';c.style.opacity='0';
+  const nx=deck.querySelector('.card.back');if(nx){nx.classList.remove('back')}
+  i++;setTimeout(render,300);}
+function bind(c){let sx=0,dx=0,drag=false;
+  c.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX;c.setPointerCapture(e.pointerId);c.style.transition='none'});
+  c.addEventListener('pointermove',e=>{if(!drag)return;dx=e.clientX-sx;c.style.transform='translateX('+dx+'px) rotate('+dx/18+'deg)';c.querySelector('.yes').style.opacity=Math.max(0,dx/120);c.querySelector('.no').style.opacity=Math.max(0,-dx/120)});
+  c.addEventListener('pointerup',()=>{drag=false;c.style.transition='';if(Math.abs(dx)>90)decide(dx>0);else{c.style.transform='';c.querySelectorAll('.stamp').forEach(s=>s.style.opacity=0)}dx=0});}
+function done(){
+  deck.hidden=true;document.getElementById('btns').hidden=true;document.getElementById('hint').hidden=true;
+  const cnt={};liked.forEach(k=>W[k][1].forEach(t=>cnt[t]=(cnt[t]||0)+1));
+  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>x[0]);
+  const tags=top.length?top:['Open to anything'];
+  document.getElementById('rlab').textContent='Matchmaker read the style for your '+space.toLowerCase();document.getElementById('rh').textContent=top.length?top.slice(0,2).join(' and ')+'.':'Open to ideas.';spEl.hidden=true;
+  document.getElementById('rtags').innerHTML=tags.map(t=>'<span>'+t+'</span>').join('');
+  document.getElementById('rthumbs').innerHTML=liked.map(k=>'<img src="img/'+W[k][0]+'.jpg" alt="">').join('');
+  store.set('ap_style',{tags,space,liked:liked.map(k=>W[k][0])});const b=store.get('ap_brief',{});b.space=space;store.set('ap_brief',b);
+  document.getElementById('res').hidden=false;
+}
+document.getElementById('yes').onclick=()=>decide(true);document.getElementById('no').onclick=()=>decide(false);
+document.addEventListener('keydown',e=>{if(document.getElementById('res').hidden){if(e.key==='ArrowRight')decide(true);if(e.key==='ArrowLeft')decide(false)}});
+document.getElementById('share').onclick=()=>toast('Link copied for your team (prototype)');
+document.getElementById('again').onclick=()=>{spEl.hidden=false;i=0;liked=[];deck.hidden=false;document.getElementById('btns').hidden=false;document.getElementById('hint').hidden=false;document.getElementById('res').hidden=true;render()};
+render();
+</script>
+</body></html>

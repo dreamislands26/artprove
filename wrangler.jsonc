@@ -1,0 +1,8 @@
+{
+  // artprove.com — static site + cabinet. Deployed by Cloudflare Workers Builds on push to main.
+  "name": "still-night-cfa6",
+  "compatibility_date": "2026-11-17",
+  "assets": {
+    "directory": "./site"
+  }
+}
