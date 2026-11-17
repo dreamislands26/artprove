@@ -203,7 +203,7 @@ function draw(){
   document.getElementById('chips').innerHTML=tags.map(t=>'<span>'+E(t)+'</span>').join('');
   document.getElementById('cred').textContent=credits;
   const why=document.getElementById('why');why.innerHTML=(M.why||[]).map(x=>'<li>'+E(x)+'</li>').join('');
-  const src=document.getElementById('msrc');src.textContent=M.source==='ai'?'AI match · a curator checks it next':'Quick match from your style · a curator checks it next';
+  const src=document.getElementById('msrc');src.textContent=M.source==='ai'?'AI match · a curator checks it next':'Quick match from our scoring · a curator checks it next';
   const LVN={strong:'Strong',good:'Good',weak:'Weak',unknown:'To check'};const CN=(brief&&brief.track==='Online')?Object.assign({},APR.CRIT,APR.CRIT_ONLINE):Object.assign({},APR.CRIT_ONLINE,APR.CRIT);
   const cr=M.criteria||{},ce=document.getElementById('crit');ce.hidden=!Object.keys(cr).length;
   ce.innerHTML='<span class="tag" style="color:var(--blue)">How it fits your brief</span><div class="cg">'+Object.keys(cr).map(k=>{const c=cr[k]||{};const lv=LVN[c.level]?c.level:'unknown';return '<div class="c '+lv+'"><b>'+E(CN[k]||k)+'</b><i>'+LVN[lv]+'</i><span>'+E(c.reason||'')+'</span></div>'}).join('')+'</div>';
